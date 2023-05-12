@@ -1,5 +1,5 @@
 import re
-from transformers import AutoTokenizer, pipeline
+from LLM_generator import science_tutoring
 
 def generate_radio_messages(dataframe, n_g_r):
 
@@ -30,20 +30,10 @@ def generate_messages_per_newsitem(input_text, n_g_r):
     # prompt3 is input_text[2]
     j = 0
     ls_generated_mess = []
-    #print(input_text)
-    # openai.api_key = "your_openai_api_key"
-    # model_engine = "text-davinci-002"
     while j < n_g_r:
-        # completions = openai.Completion.create(engine=model_engine, prompt=prompt, max_tokens=60)
-        # message = completions.choices[0].text.strip()
-
-        #output_1 = 
-        # output 2 (first created radio messages)
-        # output 3 (final created radio message)
-
-
-
-        ls_generated_mess.append('output3') # non-string ofc.
+        # output 3 should be the final shortened radio message
+        output3 = science_tutoring(input_text[0], input_text[1], input_text[2])
+        ls_generated_mess.append(output3) # non-string ofc.
 
     return ls_generated_mess # must be returned the final_generated_message
 
