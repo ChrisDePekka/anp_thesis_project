@@ -1,28 +1,16 @@
 import re
-from LLM_generator import science_tutoring
+from LLM_generator import LLM_rm_generator, LLM_rms_evaluator
 
 def generate_radio_messages(dataframe, n_g_r):
-
     ls_all_news_gen_mess = []
-    #print(dataframe)
 
     for index, row in dataframe.iterrows():
-        model_call = "here_we_call_PALM"
-
-        # Here we call PALM on first prompt1
-        
-        #print(row[3])
-        #print(row[3:6])
-
-        
+       
         ls_generated_mess_1_news = generate_messages_per_newsitem(row[3:6], n_g_r) # consists of a list including the 9 generated messages
         ls_all_news_gen_mess.append(ls_generated_mess_1_news)
 
-
-
     dataframe['generated_mess'] = ls_all_news_gen_mess
     return dataframe
-
 
 def generate_messages_per_newsitem(input_text, n_g_r):
     # prompt1 is input_text[0]
@@ -32,12 +20,10 @@ def generate_messages_per_newsitem(input_text, n_g_r):
     ls_generated_mess = []
     while j < n_g_r:
         # output 3 should be the final shortened radio message
-        output3 = science_tutoring(input_text[0], input_text[1], input_text[2])
-        ls_generated_mess.append(output3) # non-string ofc.
+        output3 = LLM_rm_generator(input_text[0], input_text[1], input_text[2])
+        ls_generated_mess.append(output3) 
 
     return ls_generated_mess # must be returned the final_generated_message
-
-
 
 
 def generate_radio_scores(dataframe, n_s, n_g_r):
@@ -55,7 +41,6 @@ def generate_radio_scores(dataframe, n_s, n_g_r):
 
         for i, col_name in enumerate(col_names):
             dataframe.loc[index, col_name] = ls_n_s[i]
-
 
 
     # I am unsure whether this is the correct way. 
@@ -87,15 +72,11 @@ def generate_radio_scores(dataframe, n_s, n_g_r):
     return dataframe, col_names_per_radio_mes
 
 def generate_scores(eval_prompt):
-    model_call = "here_we_call_PALM"
-    # Here we call PALM on eval_prompt
-    # completions = openai.Completion.create(engine=model_engine, prompt=prompt, max_tokens=60)
-    # message = completions.choices[0].text.strip()
-
-
-    #output is one eval run, so that contains the scores of all the generated messages
-    output_eval =  'palm generated'
-    ls_scores_one_eval_run = re.findall(r"Score: (\d+)\nUitleg:\n(.+)", output_eval)
+    ls_scores_one_eval_run = []
+    output_LLM = LLM_rms_evaluator(eval_prompt)
+    #output_LLM contains the entire output prompt in which the scores are given to the radio messages
+    
+    ls_scores_one_eval_run = re.findall(r"Score: (\d+)\nUitleg:\n(.+)", output_LLM)
     return ls_scores_one_eval_run
 
 
@@ -104,18 +85,5 @@ def generate_scores(eval_prompt):
         # Continue here, the question is how to take the scores.
         # I can use regular expression based on the numbers, or after Score 1: e.g. . 
         # Can make lists of the scores belonging to 1 radio message.
-
-
-    
-    # Now I want to take the mean of each Output
-
-
-
-    # I am going to do: generate 
-
-
-
-    # Maybe need to empty the lists first 
-
 
     # Heb dus een de columns met [radio_1-score, radio2 score, radio3 score], wil maken [radio1score, radio1 score, radio1score]

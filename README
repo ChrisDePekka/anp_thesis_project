@@ -59,6 +59,7 @@ The second step is to create a column for each separate radio message, meaning t
 Future Changes | Thoughts
 If the output does not match the regular expression, errors will occur. So need to find ways to overcome this.
 Also, if more scores are given to the radio messages, the regular expression must be changed as well.
+I added a bit random context to the evaluation prompt, so need to change this.
 _____________________________________________________________________________________________________________________
 
 Lastly, post-processing is done. The mean scores of the n_g_r radio messages is calculated. Then, the radio message that has the highest mean score is chosen as be the best generated radio message. The last two columns therefore contain the highest mean score number, and the best found generated radio message. Finally, the dataframe with the new columns is returned.
