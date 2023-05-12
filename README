@@ -1,0 +1,88 @@
+Dear Reader, in this README-file we go through the code step-by-step and explain what happens and which choices are made when writing the code.
+
+Model.py connects all the separate Python-files.
+____________________________________________________________________________________________________________________
+
+First the dataset is read in via get_data (located in data_processing.py).
+The dataset consists of 130 rows containing the newsarticle, radio_bodytext, and News category.
+It is preprocessed by removing stuff before a - because that information was noise.
+
+Future Changes | Thoughts
+The radio_bodytext and news_category are both currently not used 
+The selected radio messages are sequentially selected with no attention given to e.g. their place in the radio bulletin. In the future, there could be attention given to it and/or messages must be selected more random to get a more diverse set of news.
+The dataset now is 130 rows, this could be lowered/increased depending on computational time and significance/ generalizability of the results.
+_____________________________________________________________________________________________________________________
+
+The number of generated radio messages is specified via n_g_r.
+The number of times time evaluation prompt is ran over the generated radio messages is specified via n_s.
+
+Future Changes | Thoughts
+n_g_r and n_s could be placed in a config file rather than in _main__
+n_g_r is now equal to 9, which is could be changed.
+n_s is now equal to 20, because research suggests it to be. Chosen for this is that it makes it possible to get an insight in the output probabilities of the given scores.
+_____________________________________________________________________________________________________________________
+
+The dataframe is extended so that it includes the prompts to generate the radio messages.
+In create_prompt_newsarticle, the prompts are created using the function generate_prompts_clavie. It outputs three prompts. The first one includes the system prompt and the first user prompt. To the second prompt the news article is added. The third prompt asks to make the output shorter. The three prompts are added to the dataframe.
+
+Future Changes | Thoughts
+The changeable parameters of the clavie_prompt could be placed in a config file rather than in generate_prompts_clavie.
+Some LLM require the system prompt to be placed in a different spot than the user prompt. This would make it necessary to split the two. Also, it is asked to make the radiomessage shorter even though the length of the output is not yet known. It would be better to first check the length of the output and then ask to make it shorter or not. 
+Also, some output will be more random (meaning it contains explanation about the intermediate steps to reach the radiomessage e.g.). This should also be handled one way or another.
+Lastly, other types of prompts could be experimented with.
+_____________________________________________________________________________________________________________________
+
+In the third step, the radio messages are generated using the previously created prompts. It does so row by row. It appends the 9 generated radio messages to a list. This list thus contains the 9 radio messages for a news message. This list is appended to the larger list called ls_all_news_gen_mess. At the end this larger list contains all the sublists that each contain the 9 radio messages. This larger list is added to the dataframe as one column. 
+
+Future Changes | Thoughts
+This does not work because I do not have access to the LM yet. 
+
+_____________________________________________________________________________________________________________________
+
+Fourthly, the prompts to evaluate the radio messages are created. The format is based on the Lai et al. paper. It is a simple prompt and forces the LM to give its output in the following way:
+    Output 1: 
+    Score 1: 
+    Uitleg 1: 
+Then, the lai prompt is connected to the news article and the 9 generated radio messages.It does so by saying Output 1: "insert radio-message1" \ Output 2: "insert radio-message2' etc. (the radio-messages are the real generated radio messages and not just strings)
+This final connected evaluation prompt is added to the dataframe via a new column called "evaluation prompts". 
+
+Future Changes | Thoughts
+The lai prompt is relatively simple and can thus be adapted. Also, for now the lai prompt only looks at content preservation and not other things, like the text style. This must be changed. In doing so, multiple scores can be given to the radio messages, which affects how the scores can be extracted.
+
+_____________________________________________________________________________________________________________________
+
+Fifthly, the evaluation prompts are used to generate the evaluation scores for the radio messages. n_s times the evaluation prompt is ran, so that the token probabilities can be evaluated. In generate_radio_scores, first a list of the column names is created so that every run can be appended to its own column. 
+Then, loop through the dataframe row-by-row and for every row create ls_n_s, which is a list containing for every run a list containing the scores given to the radio messages. These sublists are added to the newly added columns of the dataframe, called "eval_scores_run_{}.
+The scores are taken using regular expression and are selected based on the presence of integers between Score: and Uitleg.
+The second step is to create a column for each separate radio message, meaning that all the scores given to RadioMessage 1 must be placed together in one list. So, n_g_r columns are created.
+
+Future Changes | Thoughts
+If the output does not match the regular expression, errors will occur. So need to find ways to overcome this.
+Also, if more scores are given to the radio messages, the regular expression must be changed as well.
+_____________________________________________________________________________________________________________________
+
+Lastly, post-processing is done. The mean scores of the n_g_r radio messages is calculated. Then, the radio message that has the highest mean score is chosen as be the best generated radio message. The last two columns therefore contain the highest mean score number, and the best found generated radio message. Finally, the dataframe with the new columns is returned.
+
+Future Changes | Thoughts
+I did not write the code as efficient as possible I think, so might be needed to make it better to lower the computational time.
+_____________________________________________________________________________________________________________________
+
+Need to make choices in which prompts to run.
+Need to think about how many example news articles to run the program on to find answers that are significant (how many examples to run to make it significant)
+Need to add possibilities in adding e.g. a news article title to the prompt, or the category. Could make category-dependent prompts.
+For now, the golden radio messages are not used. This since adding them has shown in literature that it does not benefit the evaluation results. Are there different ways to utilize them?
+Need to compare the quality of standard automatic evaluation metrics (BLUE/ ROUGE etc.) to using the LLM as evaluator?
+Need to compare whether what the LLM perceives as high quality is in  correspondance with what humans perceive as high quality.
+How is the performance of using different prompts compared? Is it via sample-level, dataset-level? Sample-level is looking at comparing individual radio messages, if Prompt1 gets better results than Prompt2 on most of the radiomessages, Prompt1 is better. Dataset-level looks at the overall dataset. 
+Prompt 1 Evaluation Results | Prompt 2 Evaluation Results
+RM 1 |              80      |   85
+RM 2 |              65      |   70
+RM 3 |              90      |   65
+RM 4 |              80      |   85
+Using Sample-level, Prompt2 is better, since in 3 out of the 4 RMs the quality of the RM is perceived higher.
+Using the Dataset-level, Prompt1 is better, since the average evaluation results of all the radio messages is higher.
+Need to give room for an editor to add the essence to the news article that he wants, to replace step 3 of the work process.
+Takes time to generate the radio messages, so in-production/experiment a solution must be found to make it work.
+
+Further suggestions?
+
