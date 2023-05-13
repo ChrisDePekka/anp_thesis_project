@@ -85,5 +85,8 @@ Using the Dataset-level, Prompt1 is better, since the average evaluation results
 Need to give room for an editor to add the essence to the news article that he wants, to replace step 3 of the work process.
 Takes time to generate the radio messages, so in-production/experiment a solution must be found to make it work.
 
+Build an interaction tool to allow people to give input. Investigate whether the increased human interaction makes the people working with it more willing to accept the outcomes of the model.
+
 Further suggestions?
+
 
