@@ -23,13 +23,20 @@ def post_processing(df, n_g_r, col_names_scores):
     while counter < n_g_r:
         for index, row in df.iterrows():
             print(row['eval_scores_run_1'])
+            for name_col in col_names_scores:
+                print(type(row[name_col]))
+                print(row[name_col])
+                a = np.mean(row[name_col])
+                print(a)
+                mean_score_per_radio_mess.append(a)
 
-            mean_score_per_radio_mess.append([np.mean(row[col_name]) for col_name in col_names_scores])
+            #mean_score_per_radio_mess.append([np.mean(row[col_name]) for col_name in col_names_scores])
             #mean_score_per_radio_mess.append([row[col_name].apply(mean_func) for col_name in col_names_scores])
+                print(mean_score_per_radio_mess)
 
+            df[col_names_mean_per_radio_mes[counter2]] = mean_score_per_radio_mess
 
-        df[col_names_mean_per_radio_mes[counter2]] = mean_score_per_radio_mess
-        mean_score_per_radio_mess.clear()
+            mean_score_per_radio_mess.clear()
         counter += 1 
         counter2 += 1
 
@@ -44,10 +51,11 @@ def post_processing(df, n_g_r, col_names_scores):
     print("BE MORE VISIBLE")
     print_full(df.iloc[:, -n_g_r:])
     print(type(df.iloc[:, -n_g_r:]))
+    print(df.iloc[:, -n_g_r:])
     df['highest_mean_col'] = df.iloc[:,-n_g_r:].apply(max_func, axis=1)
-    
 
-    # split the 'max_col' column into two separate columns
+
+    # split the 'highest_mean_col' column into two separate columns
     # create a dataframe from the tuple containing the highest_mean_score and its corresponding dataframe
     df[['highest_mean_score', 'highest_mean_score_col_name']] = pd.DataFrame(df['highest_mean_col'].tolist(), index=df.index)    
 
