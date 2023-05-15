@@ -1,6 +1,6 @@
 import re
 from LLM_generator import LLM_rm_generator, LLM_rms_evaluator, gpt_generator, gpt_evaluator
-
+from data_processing import print_full
 def generate_radio_messages(dataframe, n_g_r):
     ls_all_news_gen_mess = []
     print(dataframe.columns)
@@ -44,10 +44,21 @@ def generate_radio_scores(dataframe, n_s, n_g_r):
 
 
     for index, row in dataframe.iterrows():
-       
-        ls_n_s = [generate_scores(row["evaluation prompts"]) for _ in range(n_s)] # a list containing lists. The inner lists are the scores of every radiomessage.
+        print(dataframe.columns)
+
+
+        ls_n_s = [generate_scores(row["evaluation_prompts"]) for _ in range(n_s)] # a list containing lists. The inner lists are the scores of every radiomessage.
+
+        # For this try, I will make the case when the list is empty (no scores are found)
+        for i, inner_list in enumerate(ls_n_s):
+            # Check if the inner list is empty
+            if not inner_list:
+                # Replace the empty inner list with a new list
+                # is actually ["10", "20"], so pay attention
+                ls_n_s[i] = [10, 20]
 
         for i, col_name in enumerate(col_names):
+            print(col_name)
             dataframe.loc[index, col_name] = ls_n_s[i]
 
 
@@ -56,6 +67,8 @@ def generate_radio_scores(dataframe, n_s, n_g_r):
     # Weet niet of het zo klopt, maar lastig te controleren als je de output niet kent.
     col_names_per_radio_mes = []
     for g in range(n_s):
+        print("heeeere")
+        print(g)
         col_name_per_radio_mes = "eval_scores_gen_radio_mess_" + str(g)
         col_names_per_radio_mes.append(col_name_per_radio_mes )
 
@@ -63,14 +76,22 @@ def generate_radio_scores(dataframe, n_s, n_g_r):
     counter = 0
     counter2 = 0
     while counter < n_g_r:
-        print(counter)
+        #print(counter)
         for index, row in dataframe.iterrows():
-            print(index)
+            #print(index)
             #print(index, row)
             # access the first element of each column and append it to the col_radio_mess list
             #content_scores_radio_mess.append([row['shuf_cl'][counter], row['shuf_c2'][counter], row['shuf_c3'][counter]])
-            content_scores_radio_mess.append([row[col_name][counter] for col_name in col_names])
-            print(content_scores_radio_mess)
+            # print("oki")
+            # print(len(col_names))
+            # print(len(row[col_name]))
+            # print(col_name for col_name in col_names)
+            # print("see")
+            # print(row)
+            # print(row['eval_scores_run_1'])
+
+            content_scores_radio_mess.append([row[name_col][counter] for name_col in col_names])
+            #print(content_scores_radio_mess)
         #df['new_col'] = new_col
         dataframe[col_names_per_radio_mes[counter2]] = content_scores_radio_mess
         content_scores_radio_mess.clear()
@@ -78,7 +99,7 @@ def generate_radio_scores(dataframe, n_s, n_g_r):
         counter2 += 1
 
 
-
+    #print_full(dataframe[-2:][:])
     return dataframe, col_names_per_radio_mes
 
 def generate_scores(eval_prompt):
@@ -90,7 +111,13 @@ def generate_scores(eval_prompt):
     #output_LLM contains the entire output prompt in which the scores are given to the radio messages
     
     ls_scores_one_eval_run = re.findall(r"Score: (\d+)\nUitleg:\n(.+)", output_LLM)
-    return ls_scores_one_eval_run
+    int_list = []
+
+    # turn into integers
+    for num in ls_scores_one_eval_run:
+        int_list.append(int(num))
+
+    return int_list
 
 
     # since the radio-messages are in sequence, the first encountered score belongs to ls_n_r 1

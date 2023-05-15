@@ -122,16 +122,17 @@ def gpt_evaluator(input):
     import openai
     openai.api_key = "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"
 
-    response = openai.ChatCompletion.create(
-            model = "gpt-3.5-turbo", 
-            messages=[
+    # response = openai.ChatCompletion.create(
+    #         model = "gpt-3.5-turbo", 
+    #         messages=[
             
-            {"role":"user", "content": input}
-            ]
-            ,
-            max_tokens = 150,
-            temperature = 0.8,
-            n = 1,
-            stop = None
-            )
-    return response.choices[0].message.content
+    #         {"role":"user", "content": input}
+    #         ]
+    #         ,
+    #         max_tokens = 150,
+    #         temperature = 0.8,
+    #         n = 1,
+    #         stop = None
+    #         )
+    #return response.choices[0].message.content
+    return "train_test"

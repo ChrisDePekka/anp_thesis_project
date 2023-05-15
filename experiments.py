@@ -61,9 +61,9 @@ def create_eval_prompts(dataframe):
     for index, row in dataframe.iterrows():
         #print(row[1]) # is the news_article
         # I want to get the last column, since those contain the n generated messages
-        print("NEEEDT O LOOK FOOR THISSSSSS")
+        #print("NEEEDT O LOOK FOOR THISSSSSS")
         
-        print(row[-1])
+        #print(row[-1])
         conn_laiprompt_gen_radio = connecting_prompt_with_gen_mess(lai_eval_prompt, row[1] , row[-1])
         lai_prompt_comb.append(conn_laiprompt_gen_radio)
     

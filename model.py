@@ -29,33 +29,32 @@ if __name__ == "__main__":
     # For now, it contains 1 column and each row contains a list of the 10 generated radio messages
     # could make separate columns out of it
     df_with_generated_radio = generate_radio_messages(df_with_prompts_incl_prompt_news, n_g_r)
-    print(df_with_generated_radio)
+    #print(df_with_generated_radio)
     
-    a = 2
+
 
         # evaluation prompts
     df_with_evaluation_prompts = create_eval_prompts(df_with_generated_radio)
-    print_full(df_with_evaluation_prompts)
-    if a == 2:
-        print("well")
+    #print_full(df_with_evaluation_prompts)
 
-    else:
-        # generate the scores belonging to each generated radio-message.
-        # This includes the following two types of columns
-        # Type 1: consists of n_s runs and each column is a run, thus consisting of scores for the n_g_r messages
-        # Type 2: consists of n_g_r columns and each column is a generated radio mess, thus consisting of n_s scores of the individual 
-        # radio mess
-        # col_names_scores contain the scores per radio message
+    # generate the scores belonging to each generated radio-message.
+    # This includes the following two types of columns
+    # Type 1: consists of n_s runs and each column is a run, thus consisting of scores for the n_g_r messages
+    # Type 2: consists of n_g_r columns and each column is a generated radio mess, thus consisting of n_s scores of the individual 
+    # radio mess
+    # col_names_scores contain the scores per radio message
 
-        df_with_evaluation_scores, col_names_scores = generate_radio_scores(df_with_evaluation_prompts, n_s, n_g_r)
+    df_with_evaluation_scores, col_names_scores = generate_radio_scores(df_with_evaluation_prompts, n_s, n_g_r)
 
-        # post processing dataframe
-        # Step 1: create the mean of the scores per radio-mess, add this to a new column
-        # Step 2: select the best generated radio mess by selecting the one with the highest mean.
-        # Step 3: In the final two columns, place the found mean of the highest radio message, place the best-found generated radio-mess. 
-        final_df_incl_best_found_output = post_processing(df_with_evaluation_scores, n_g_r, col_names_scores)
+    # post processing dataframe
+    # Step 1: create the mean of the scores per radio-mess, add this to a new column
+    # Step 2: select the best generated radio mess by selecting the one with the highest mean.
+    # Step 3: In the final two columns, place the found mean of the highest radio message, place the best-found generated radio-mess. 
+    final_df_incl_best_found_output = post_processing(df_with_evaluation_scores, n_g_r, col_names_scores)
 
-        print(final_df_incl_best_found_output)
+    final_df_incl_best_found_output.to_csv('firstresults.csv', index=False)
+
+    print_full(final_df_incl_best_found_output)
 
 
 
