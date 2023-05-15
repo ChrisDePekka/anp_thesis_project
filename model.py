@@ -19,8 +19,12 @@ if __name__ == "__main__":
     #print_full(dataset_to_generate)
     #dataset_to_generate[:2].show()
 
+    # Use only the first row to show that it works
+    sample_row_df = dataset_to_generate.iloc[0:2]
+
+
     # dataframe including the prompt_newsarticle combination
-    df_with_prompts_incl_prompt_news = create_prompt_newsarticle(dataset_to_generate)
+    df_with_prompts_incl_prompt_news = create_prompt_newsarticle(sample_row_df)
     #print(df_with_prompts_incl_prompt_news)
     # For now, it contains 1 column and each row contains a list of the 10 generated radio messages
     # could make separate columns out of it

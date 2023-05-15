@@ -33,9 +33,14 @@ def generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, nam
             new_sentence = re.sub(pattern, r"\1, stap-voor-stap,\2", prompt1)
             #print(new_sentence)
             #print("system_prompt",  system_prompt)
-            prompt1 = system_prompt + reit_prompt + user_prompt + new_sentence
+            
+            #prompt1 = system_prompt + reit_prompt + user_prompt + new_sentence
+            system_prompt_final = system_prompt + reit_prompt
+            prompt1 = user_prompt + new_sentence
         else:
-            prompt1 = system_prompt + user_prompt + prompt1
+            #prompt1 = system_prompt + user_prompt + prompt1
+            system_prompt_final = system_prompt
+            prompt1 = user_prompt + prompt1
 
 
     if mock:
@@ -61,7 +66,7 @@ def generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, nam
     prompt3 = "Dankjewel! Kan je het iets korter schrijven?"
     
     starting_question_prompt = "Fijn! Dan beginnen wij :)  . Voor het volgende nieuwsbericht: "
-    return prompt1, prompt2, prompt3
+    return system_prompt_final, prompt1, prompt2, prompt3
 
 
 def generate_lai_eval_prompts():

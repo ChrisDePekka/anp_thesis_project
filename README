@@ -89,6 +89,9 @@ Build an interaction tool to allow people to give input. Investigate whether the
 
 Potentially use assert statements to see whether the generated output indeed consists of e.g. Score: if it does not, generate again e.g.
 
+As a try to check whether it works, change in generate_radio_messages and in generate_scores LLM_rm_generator and LLM_rms_evaluator to gpt_generator and gpt_evaluator
+
+
 Further suggestions?
 
 

@@ -1,10 +1,10 @@
 from vertexai.preview.language_models import ChatModel, InputOutputTextPair
 from data_processing import get_data
 from constants import examples, csv_file, n_of_examples
+import openai
 
 
-
-def LLM_rm_generator(input_prompt1, input_prompt2, input_prompt3, temperature=.2):
+def LLM_rm_generator(input_system_prompt, input_prompt1, input_prompt2, input_prompt3, temperature=.2):
 
     chat_model = ChatModel.from_pretrained("chat-bison@001")
 
@@ -22,7 +22,7 @@ def LLM_rm_generator(input_prompt1, input_prompt2, input_prompt3, temperature=.2
         random_rows = df.sample(n=n_of_examples, replace=False)
         if n_of_examples == 1:
             chat = chat_model.start_chat(
-                context= input_prompt1,
+                context= input_system_prompt + "|" + input_prompt1,
             examples=[
                 InputOutputTextPair(
                     input_text=random_rows.iloc[0, 1],
@@ -32,7 +32,7 @@ def LLM_rm_generator(input_prompt1, input_prompt2, input_prompt3, temperature=.2
                 )
         else:
             chat = chat_model.start_chat(
-            context= input_prompt1,
+            context= input_system_prompt + "|" + input_prompt1,
             examples=[
                 InputOutputTextPair(
                     input_text=random_rows.iloc[0, 1],
@@ -47,7 +47,7 @@ def LLM_rm_generator(input_prompt1, input_prompt2, input_prompt3, temperature=.2
 
     else:
         chat = chat_model.start_chat(
-            context= input_prompt1)
+            context= input_system_prompt + "|" + input_prompt1)
 
     response = chat.send_message(input_prompt2, **parameters)
     # to send the third prompt to say: please shorter
@@ -83,3 +83,34 @@ def LLM_rms_evaluator(input_eval_prompt, temperature=.2):
     #print(f"Response from Model: {response.text}")
 
     return response
+
+
+
+
+def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3, temperature=.2):
+     # in gpt, everything must be put into 1 string.
+    user_prompt1 = input_prompt1 + "1\n"
+    user_prompt2 = input_prompt2 + "2\n"
+    user_prompt3 = input_prompt3 + "\n"
+    final_user_prompt = user_prompt1 + user_prompt2 + user_prompt3
+    print(final_user_prompt)
+     #response = openai.ChatCompletion.create(
+    #             model = "gpt-3.5-turbo", 
+    #         messages=[
+    #         {"role":"system", "content":system_prompt},
+    #         {"role":"user", "content": input_prompt1 }
+    #         ]
+    #         ,
+    #         max_tokens = 150,
+    #         temperature = 0.8,
+    #         n = 1,
+    #         stop = None
+    #         )
+    #         return response.choices[0].message.content
+    #         # "gpt-3.5-turbo"
+    # generated_outputs = generate_radio_mes(prompt_news_art)
+    return 'hi'
+    #return print("This is the generated output", generated_outputs)
+
+def gpt_evaluator(input):
+    return "fixing"

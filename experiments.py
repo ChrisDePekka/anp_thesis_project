@@ -13,11 +13,12 @@ def create_prompt_newsarticle(dataset):
     # At the moment I ignored system and user since don't know whether that will be available
     print("type: ", type(dataset))
 
-    clavie_prompt1, clavie_prompt2, clavie_prompt3 = generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos)
+    clavie_system_prompt, clavie_prompt1, clavie_prompt2, clavie_prompt3 = generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos)
     # print(clavie_prompt1)
     # print(clavie_prompt2)
     # print(clavie_prompt3)
 
+    cl_system = pd.Series([clavie_system_prompt] * len(dataset))
     cl_prompt1 = pd.Series([clavie_prompt1] * len(dataset))
     cl_prompt3  = pd.Series([clavie_prompt3] * len(dataset))
     cl_prompt2 = []
@@ -30,6 +31,7 @@ def create_prompt_newsarticle(dataset):
 
     #prompts_same_length, prompt_news_combi, radio_mes_ext = connecting_prompts_with_data(clavie_prompt2, dataset)
 
+    dataset['cl_systemprompt'] = cl_system
     dataset['cl_prompt1'] = cl_prompt1
     dataset['cl_prompt2'] = cl_prompt2
     dataset['cl_prompt3'] = cl_prompt3
