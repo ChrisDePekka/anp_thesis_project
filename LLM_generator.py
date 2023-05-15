@@ -94,6 +94,8 @@ def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3, te
     user_prompt3 = input_prompt3 + "\n"
     final_user_prompt = user_prompt1 + user_prompt2 + user_prompt3
     print(final_user_prompt)
+    
+    #print(final_user_prompt)
      #response = openai.ChatCompletion.create(
     #             model = "gpt-3.5-turbo", 
     #         messages=[

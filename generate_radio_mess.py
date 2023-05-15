@@ -3,11 +3,15 @@ from LLM_generator import LLM_rm_generator, LLM_rms_evaluator, gpt_generator, gp
 
 def generate_radio_messages(dataframe, n_g_r):
     ls_all_news_gen_mess = []
-
+    print(dataframe.columns)
+    print(len(dataframe))
     for index, row in dataframe.iterrows():
        
         ls_generated_mess_1_news = generate_messages_per_newsitem(row[3:7], n_g_r) # consists of a list including the 9 generated messages
         ls_all_news_gen_mess.append(ls_generated_mess_1_news)
+
+        print(ls_all_news_gen_mess)
+
 
     dataframe['generated_mess'] = ls_all_news_gen_mess
     return dataframe
@@ -26,7 +30,7 @@ def generate_messages_per_newsitem(input_text, n_g_r):
         output3 = gpt_generator(input_text[0], input_text[1], input_text[2], input_text[3])
         
         ls_generated_mess.append(output3) 
-
+        j += 1
     return ls_generated_mess # must be returned the final_generated_message
 
 
@@ -59,7 +63,9 @@ def generate_radio_scores(dataframe, n_s, n_g_r):
     counter = 0
     counter2 = 0
     while counter < n_g_r:
+        print(counter)
         for index, row in dataframe.iterrows():
+            print(index)
             #print(index, row)
             # access the first element of each column and append it to the col_radio_mess list
             #content_scores_radio_mess.append([row['shuf_cl'][counter], row['shuf_c2'][counter], row['shuf_c3'][counter]])

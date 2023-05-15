@@ -31,10 +31,19 @@ def create_prompt_newsarticle(dataset):
 
     #prompts_same_length, prompt_news_combi, radio_mes_ext = connecting_prompts_with_data(clavie_prompt2, dataset)
 
-    dataset['cl_systemprompt'] = cl_system
-    dataset['cl_prompt1'] = cl_prompt1
-    dataset['cl_prompt2'] = cl_prompt2
-    dataset['cl_prompt3'] = cl_prompt3
+    print(dataset.columns)
+    # dataset.loc[:, 'cl_systemprompt'] = cl_system better to use this 
+    dataset.loc[:, 'cl_systemprompt'] = cl_system
+    dataset.loc[:, 'cl_prompt1'] = cl_prompt1
+    dataset.loc[:, 'cl_prompt2'] = cl_prompt2
+    dataset.loc[:, 'cl_prompt3'] = cl_prompt3
+
+
+
+    # dataset['cl_systemprompt'] = cl_system
+    # dataset['cl_prompt1'] = cl_prompt1
+    # dataset['cl_prompt2'] = cl_prompt2
+    # dataset['cl_prompt3'] = cl_prompt3
 
     # print(dataset[:5])
     # print(dataset.columns)
