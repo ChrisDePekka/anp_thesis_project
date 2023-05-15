@@ -4,6 +4,9 @@ from constants import examples, csv_file, n_of_examples
 import openai
 
 
+openai.api_key = "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"
+
+
 def LLM_rm_generator(input_system_prompt, input_prompt1, input_prompt2, input_prompt3, temperature=.2):
 
     chat_model = ChatModel.from_pretrained("chat-bison@001")
@@ -95,23 +98,21 @@ def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3, te
     final_user_prompt = user_prompt1 + user_prompt2 + user_prompt3
     print(final_user_prompt)
     
-    #print(final_user_prompt)
-     #response = openai.ChatCompletion.create(
-    #             model = "gpt-3.5-turbo", 
-    #         messages=[
-    #         {"role":"system", "content":system_prompt},
-    #         {"role":"user", "content": input_prompt1 }
-    #         ]
-    #         ,
-    #         max_tokens = 150,
-    #         temperature = 0.8,
-    #         n = 1,
-    #         stop = None
-    #         )
-    #         return response.choices[0].message.content
-    #         # "gpt-3.5-turbo"
-    # generated_outputs = generate_radio_mes(prompt_news_art)
-    return 'hi'
+    response = openai.ChatCompletion.create(
+                model = "gpt-3.5-turbo", 
+            messages=[
+            {"role":"system", "content":system_prompt},
+            {"role":"user", "content": final_user_prompt}
+            ]
+            ,
+            max_tokens = 150,
+            temperature = 0.8,
+            n = 1,
+            stop = None
+            )
+    return response.choices[0].message.content
+    #generated_outputs = generate_radio_mes(prompt_news_art)
+    
     #return print("This is the generated output", generated_outputs)
 
 def gpt_evaluator(input):
