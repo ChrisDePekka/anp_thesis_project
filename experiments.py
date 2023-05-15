@@ -2,16 +2,18 @@ from generation_prompts import generate_prompts_clavie, generate_lai_eval_prompt
 from prompt_data_connection import connecting_prompts_with_news, connecting_prompt_with_gen_mess
 import pandas as pd
 from data_processing import print_full
-def create_prompt_newsarticle(dataset):
 
-    # Want to use a config file for this to turn the clavie options on and off via True/False
-    # so want to do: clavie_prompts = generate_prompts_clavie(config)
+# import variables
+from constants import zero_cot, instructions, mock, reit, right, info, name, pos
+
+
+def create_prompt_newsarticle(dataset):
 
     # for now:
     # At the moment I ignored system and user since don't know whether that will be available
     print("type: ", type(dataset))
 
-    clavie_prompt1, clavie_prompt2, clavie_prompt3 = generate_prompts_clavie(zero_cot = True, instructions = True, mock = True, reit = True, right = True, info = True, name = True, pos = True )
+    clavie_prompt1, clavie_prompt2, clavie_prompt3 = generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos)
     # print(clavie_prompt1)
     # print(clavie_prompt2)
     # print(clavie_prompt3)
