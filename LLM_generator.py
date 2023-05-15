@@ -120,7 +120,7 @@ def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3, te
 
 def gpt_evaluator(input):
     import openai
-    openai.api_key = "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"
+    openai.api_key = "x"
 
     # response = openai.ChatCompletion.create(
     #         model = "gpt-3.5-turbo", 
