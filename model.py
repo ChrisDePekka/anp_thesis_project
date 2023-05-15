@@ -7,13 +7,13 @@ import pandas as pd
 
 
 # Import constants:
-from constants import n_s, n_g_r
+from constants import n_s, n_g_r, csv_file
 
 
 if __name__ == "__main__":
 
     # Import small dataset to test the prompts on
-    dataset_to_generate = get_data("thesis.csv")
+    dataset_to_generate = get_data(csv_file)
     #print(dataset_to_generate[:5])
 
     #print_full(dataset_to_generate)
@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
     # dataframe including the prompt_newsarticle combination
     df_with_prompts_incl_prompt_news = create_prompt_newsarticle(dataset_to_generate)
-    print(df_with_prompts_incl_prompt_news)
+    #print(df_with_prompts_incl_prompt_news)
     # For now, it contains 1 column and each row contains a list of the 10 generated radio messages
     # could make separate columns out of it
     df_with_generated_radio = generate_radio_messages(df_with_prompts_incl_prompt_news, n_g_r)

@@ -1,4 +1,7 @@
 from vertexai.preview.language_models import ChatModel, InputOutputTextPair
+from data_processing import get_data
+from constants import examples, csv_file, n_of_examples
+
 
 
 def LLM_rm_generator(input_prompt1, input_prompt2, input_prompt3, temperature=.2):
@@ -13,15 +16,38 @@ def LLM_rm_generator(input_prompt1, input_prompt2, input_prompt3, temperature=.2
         "top_k": 40,                 # A top_k of 1 means the selected token is the most probable among all tokens.
     }
 
-    chat = chat_model.start_chat(
-        context= input_prompt1
-        #examples=[
-        #    InputOutputTextPair(
-        #        input_text='How many moons does Mars have?',
-        #        output_text='The planet Mars has two moons, Phobos and Deimos.',
-       #     ),
-      #  ]
-    )
+
+    if n_of_examples > 0:
+        df = get_data(csv_file)
+        random_rows = df.sample(n=n_of_examples, replace=False)
+        if n_of_examples == 1:
+            chat = chat_model.start_chat(
+                context= input_prompt1,
+            examples=[
+                InputOutputTextPair(
+                    input_text=random_rows.iloc[0, 1],
+                    output_text=random_rows.iloc[0, 0],
+                ),
+                ]
+                )
+        else:
+            chat = chat_model.start_chat(
+            context= input_prompt1,
+            examples=[
+                InputOutputTextPair(
+                    input_text=random_rows.iloc[0, 1],
+                    output_text=random_rows.iloc[0, 0],
+                ),
+                InputOutputTextPair(
+                input_text=random_rows.iloc[1, 1],
+                output_text=random_rows.iloc[1, 0],
+                ),
+                ]
+                )
+
+    else:
+        chat = chat_model.start_chat(
+            context= input_prompt1)
 
     response = chat.send_message(input_prompt2, **parameters)
     print(f"Response from Model: {response.text}")
