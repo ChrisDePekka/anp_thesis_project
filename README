@@ -87,6 +87,8 @@ Takes time to generate the radio messages, so in-production/experiment a solutio
 
 Build an interaction tool to allow people to give input. Investigate whether the increased human interaction makes the people working with it more willing to accept the outcomes of the model.
 
+Potentially use assert statements to see whether the generated output indeed consists of e.g. Score: if it does not, generate again e.g.
+
 Further suggestions?
 
 

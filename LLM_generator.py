@@ -50,13 +50,11 @@ def LLM_rm_generator(input_prompt1, input_prompt2, input_prompt3, temperature=.2
             context= input_prompt1)
 
     response = chat.send_message(input_prompt2, **parameters)
+    # to send the third prompt to say: please shorter
+    # response2 = chat.send_message(input_prompt3, **parameters)
+    # return response2
     print(f"Response from Model: {response.text}")
-
-    # I want to continue in the same chat to ask input_prompt3, but I am not sure whether it allows me to do that 
-    # since now it uses start.chat, and I need function continue.chat.
-
     return response
-
 
 
 def LLM_rms_evaluator(input_eval_prompt, temperature=.2):
