@@ -32,13 +32,14 @@ if __name__ == "__main__":
     print(df_with_generated_radio)
     
     a = 2
+
+        # evaluation prompts
+    df_with_evaluation_prompts = create_eval_prompts(df_with_generated_radio)
+    print_full(df_with_evaluation_prompts)
     if a == 2:
         print("well")
 
     else:
-        # evaluation prompts
-        df_with_evaluation_prompts = create_eval_prompts(df_with_generated_radio)
-
         # generate the scores belonging to each generated radio-message.
         # This includes the following two types of columns
         # Type 1: consists of n_s runs and each column is a run, thus consisting of scores for the n_g_r messages

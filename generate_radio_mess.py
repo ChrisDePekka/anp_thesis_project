@@ -83,7 +83,10 @@ def generate_radio_scores(dataframe, n_s, n_g_r):
 
 def generate_scores(eval_prompt):
     ls_scores_one_eval_run = []
-    output_LLM = LLM_rms_evaluator(eval_prompt)
+    #output_LLM = LLM_rms_evaluator(eval_prompt)
+
+    output_LLM = gpt_evaluator(eval_prompt)
+
     #output_LLM contains the entire output prompt in which the scores are given to the radio messages
     
     ls_scores_one_eval_run = re.findall(r"Score: (\d+)\nUitleg:\n(.+)", output_LLM)

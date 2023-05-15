@@ -26,11 +26,11 @@ def connecting_prompts_with_news(prompt, news_art):
 def connecting_prompt_with_gen_mess(lai_prompt, news_art, gen_mess):
     
 
-    lai_combi = lai_prompt.append(f"Nieuwsbericht: {news_art}")
+    lai_combi = lai_prompt + f"Nieuwsbericht: {news_art}"
     counter = 0
     for i in gen_mess:
         counter += 1
-        lai_combi.append(f"Output {counter}: {i}")
+        lai_combi = lai_combi + f"Output {counter}: {i} "
 
     return lai_combi
 

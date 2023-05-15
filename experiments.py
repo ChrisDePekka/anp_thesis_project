@@ -53,17 +53,20 @@ def create_prompt_newsarticle(dataset):
     #print(prompts_same_length[:5], prompt_news_combi[:1], radio_mes_ext[:1])
 
 
-def create_eval_prompts(dataframe, n):
+def create_eval_prompts(dataframe):
     lai_eval_prompt = generate_lai_eval_prompts()
 
     lai_prompt_comb = []
 
     for index, row in dataframe.iterrows():
         #print(row[1]) # is the news_article
-        # I want to get the last n columns, since those contain the n generated messages
-        conn_laiprompt_gen_radio = connecting_prompt_with_gen_mess(lai_eval_prompt, row[1] , row[-n:])
+        # I want to get the last column, since those contain the n generated messages
+        print("NEEEDT O LOOK FOOR THISSSSSS")
+        
+        print(row[-1])
+        conn_laiprompt_gen_radio = connecting_prompt_with_gen_mess(lai_eval_prompt, row[1] , row[-1])
         lai_prompt_comb.append(conn_laiprompt_gen_radio)
     
-
-    dataframe['evaluation_prompts'] = lai_prompt_comb
+    dataframe.loc[:, 'evaluation_prompts'] = lai_prompt_comb
+    #dataframe['evaluation_prompts'] = lai_prompt_comb
     return dataframe
