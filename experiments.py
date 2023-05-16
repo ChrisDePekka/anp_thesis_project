@@ -68,5 +68,6 @@ def create_eval_prompts(dataframe):
         lai_prompt_comb.append(conn_laiprompt_gen_radio)
     
     dataframe.loc[:, 'evaluation_prompts'] = lai_prompt_comb
+    print(dataframe['evaluation_prompts'])
     #dataframe['evaluation_prompts'] = lai_prompt_comb
     return dataframe

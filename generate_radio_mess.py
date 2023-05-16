@@ -10,10 +10,11 @@ def generate_radio_messages(dataframe, n_g_r):
         ls_generated_mess_1_news = generate_messages_per_newsitem(row[3:7], n_g_r) # consists of a list including the 9 generated messages
         ls_all_news_gen_mess.append(ls_generated_mess_1_news)
 
-        print(ls_all_news_gen_mess)
+        #print(ls_all_news_gen_mess)
 
 
-    dataframe['generated_mess'] = ls_all_news_gen_mess
+    dataframe.loc[:, 'generated_mess'] = ls_all_news_gen_mess
+    print(dataframe['generated_mess'])
     return dataframe
 
 def generate_messages_per_newsitem(input_text, n_g_r):
@@ -66,40 +67,41 @@ def generate_radio_scores(dataframe, n_s, n_g_r):
     # The goal: Heb dus een de columns met [radio_1-score, radio2 score, radio3 score], wil maken [radio1score, radio1 score, radio1score]
     # Weet niet of het zo klopt, maar lastig te controleren als je de output niet kent.
     col_names_per_radio_mes = []
-    for g in range(n_s):
+    for g in range(n_g_r):
         print("heeeere")
         print(g)
-        col_name_per_radio_mes = "eval_scores_gen_radio_mess_" + str(g)
+        col_name_per_radio_mes = "eval_scores_gen_radio_mess_" + str(g+1)
         col_names_per_radio_mes.append(col_name_per_radio_mes )
+        print(col_name_per_radio_mes)
+    print(col_names_per_radio_mes)
+    #content_scores_radio_mess = []
 
-    content_scores_radio_mess = []
+    for a in col_names_per_radio_mes:
+        column_name = a
+        dataframe.loc[:, column_name] = None
+
+
+
+
+
+
+
     counter = 0
     counter2 = 0
     while counter < n_g_r:
-        #print(counter)
-        for index, row in dataframe.iterrows():
-            #print(index)
-            #print(index, row)
-            # access the first element of each column and append it to the col_radio_mess list
-            #content_scores_radio_mess.append([row['shuf_cl'][counter], row['shuf_c2'][counter], row['shuf_c3'][counter]])
-            # print("oki")
-            # print(len(col_names))
-            # print(len(row[col_name]))
-            # print(col_name for col_name in col_names)
-            # print("see")
-            # print(row)
-            # print(row['eval_scores_run_1'])
 
-            content_scores_radio_mess.append([row[name_col][counter] for name_col in col_names])
-            #print(content_scores_radio_mess)
-        #df['new_col'] = new_col
-        dataframe[col_names_per_radio_mes[counter2]] = content_scores_radio_mess
-        content_scores_radio_mess.clear()
+        for index, row in dataframe.iterrows():
+           
+            content_scores_radio_mess = []
+            content_scores_radio_mess.extend([row[name_col][counter] for name_col in col_names]) # use extent instead of append otherwise you get a nested list
+
+            dataframe.at[index, col_names_per_radio_mes[counter2]] = content_scores_radio_mess.copy()
+
         counter += 1 
         counter2 += 1
 
 
-    #print_full(dataframe[-2:][:])
+    print_full(dataframe[-2:][:])
     return dataframe, col_names_per_radio_mes
 
 def generate_scores(eval_prompt):
