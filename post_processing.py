@@ -13,7 +13,7 @@ def post_processing(df, n_g_r, col_names_scores):
     # Create the columns that will contain the mean of the generated radiomessages
     col_names_mean_per_radio_mes = []
     for g in range(n_g_r):
-        col_name_mean_per_radio_mes = "eval_scores_mean_radio_mess_" + str(g)
+        col_name_mean_per_radio_mes = "eval_scores_mean_radio_mess_" + str(g+1)
         col_names_mean_per_radio_mes.append(col_name_mean_per_radio_mes)
 
     # Loop over the dataframe row by row, for each row 
@@ -41,36 +41,43 @@ def post_processing(df, n_g_r, col_names_scores):
         counter2 += 1
 
 
-    #print_full(df["eval_scores_mean_radio_mess_0"])
-
-
     # Select the radio message with the highest mean value
     max_func = lambda x: max([int(i) for i in x])
-
+    #max_func_col = lambda x: df.columns[x.argmax()][-n_g_r:]
+    max_func_col = lambda x: x.idxmax()
     #max_func = lambda x: max(x)
     print("BE MORE VISIBLE")
     print_full(df.iloc[:, -n_g_r:])
     print(type(df.iloc[:, -n_g_r:]))
     print(df.iloc[:, -n_g_r:])
-    df['highest_mean_col'] = df.iloc[:,-n_g_r:].apply(max_func, axis=1)
-
+    df.loc[:, 'highest_mean_score'] = df.iloc[:,-n_g_r:].apply(max_func, axis=1)
+    df.loc[:, 'highest_mean_score_col_name'] = df.iloc[:,-n_g_r:].apply(max_func_col, axis=1)
+    #print(df['highest_mean_col'])
 
     # split the 'highest_mean_col' column into two separate columns
     # create a dataframe from the tuple containing the highest_mean_score and its corresponding dataframe
-    df[['highest_mean_score', 'highest_mean_score_col_name']] = pd.DataFrame(df['highest_mean_col'].tolist(), index=df.index)    
-
+    #df[['highest_mean_score', 'highest_mean_score_col_name']] = pd.DataFrame(df['highest_mean_col'].tolist(), index=df.index)
+    print("Show me this:2 ", df["highest_mean_score"])    
+    print("Show me this: ", df["highest_mean_score_col_name"])
     highest_ranked_rm_ls = []
 
     for index, row in df.iterrows():
         col_rm_name = row['highest_mean_score_col_name']
+        print("Final")
+        print(row['highest_mean_score_col_name'])
         rm_nr = col_rm_name[-1]
-        # the column with the generated messages is a list of the generated messages, therefore (starts from 0), so rm_nr must be minus 1
-        highest_ranked_rm = df.loc[index, 'generated_mess'][rm_nr-1]
+        print("rm_nr: ", rm_nr)
+        # the column with the generated messages is a list of the generated messages
+        int_rm_nr = int(rm_nr)
+        print(type(rm_nr))
+        highest_ranked_rm = df.loc[index, 'generated_mess'][int_rm_nr-1]
 
         highest_ranked_rm_ls.append(highest_ranked_rm)
 
 
     df["best_gen_rm"] = highest_ranked_rm_ls
+    print(df["best_gen_rm"])
+    return df
 
 
 
