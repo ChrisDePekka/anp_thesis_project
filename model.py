@@ -53,7 +53,7 @@ if __name__ == "__main__":
     # Step 3: In the final two columns, place the found mean of the highest radio message, place the best-found generated radio-mess. 
     final_df_incl_best_found_output = post_processing(df_with_evaluation_scores, n_g_r, col_names_scores)
 
-    final_df_incl_best_found_output.to_csv('firstresults.csv', index=False)
+    #final_df_incl_best_found_output.to_csv('firstresults.csv', index=False)
 
     print_full(final_df_incl_best_found_output)
 
