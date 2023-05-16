@@ -81,3 +81,26 @@ def generate_lai_eval_prompts():
                 Uitleg 1: \
                 ———————"
     return lai_prompt
+
+
+
+def generate_clavie_evaluation():
+    # Using clavie's strategies to create an evaluation prompt. outputs three scores
+    system_prompt =  "Jij bent Erik, een AI journalist die expert is in het beoordelen van radio berichten. Jouw taak is om elk radiobericht te beoordelen op kwaliteit. \
+    Jij controleert de radioberichten op basis van vloeiendheid, feitelijke correctheid, en de radio stijl. Denk eraan, jij bent de beste AI journalist en je gebruikt jouw expertise om de kwaliteit van de radio berichten \
+    te beoordelen."
+    user_prompt_1 = "en radio bericht is goed als het de essentie van het nieuwsbericht bezit. Het moet kort en bondig zijn. Het hoofdonderwerp moet in de eerste zin naar voren komen. \
+        Minder belangrijke nieuwsfeiten moeten niet benoemd worden. Ieder nieuwsfeit mag maar 1 keer benoemd worden. De informatie in het radiobericht moet uit het nieuwsbericht afkomstig zijn. \
+        Nu geef ik jou de radioberichten en jij beoordeelt ze, stap-voor-stap, en geeft vervolgens scores op basis van van vloeiendheid, feitelijke correctheid,en radio stijl. \
+        Het evaluatieformat ziet er zo uit: \
+            Radiobericht 1: \
+            Score vloeiendheid: \
+            Score feitelijke correctheid: \
+            Score radio stijl: \
+        Begrijp je dat?"
+    
+    user_prompt_2 = "Fijn! Dan beginnen wij :)  . \
+        Nieuwsbericht: \
+        Voor de volgende radioberichten: \
+        Antwoord: denk stap-voor-stap na, zodat je het juiste antwoord bereikt."
+    return system_prompt, user_prompt_1, user_prompt_2

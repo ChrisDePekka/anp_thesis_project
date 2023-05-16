@@ -35,3 +35,18 @@ def connecting_prompt_with_gen_mess(lai_prompt, news_art, gen_mess):
     return lai_combi
 
 
+def connecting_clavie_prompt_with_gen_mess(input_clavie_eval_2, input_news, input_radios):
+    pattern = r"Nieuwsbericht: (.*)"
+    replacement = r"Nieuwsbericht: " + input_news + r" \1"
+    combi_with_news = re.sub(pattern, replacement, input_clavie_eval_2)
+    pattern2 = r"Voor de volgende radioberichten: (.*)"
+    replacement2 = r"Voor de volgende radioberichten: " + create_str_gen_rm(input_radios) + r" \1"
+    final_cl_eval_prompt = re.sub(pattern, replacement, combi_with_news)
+    return final_cl_eval_prompt
+
+def create_str_gen_rm(in_radios):
+    counter = 0
+    for j in in_radios:
+        counter += 1
+        cl_eval_rm_combi = cl_eval_rm_combi + f"Radiobericht {counter}: {j} "
+    return cl_eval_rm_combi

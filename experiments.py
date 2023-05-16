@@ -1,4 +1,4 @@
-from generation_prompts import generate_prompts_clavie, generate_lai_eval_prompts
+from generation_prompts import generate_prompts_clavie, generate_lai_eval_prompts, generate_clavie_evaluation
 from prompt_data_connection import connecting_prompts_with_news, connecting_prompt_with_gen_mess
 import pandas as pd
 from data_processing import print_full
@@ -55,7 +55,7 @@ def create_prompt_newsarticle(dataset):
 
 def create_eval_prompts(dataframe):
     lai_eval_prompt = generate_lai_eval_prompts()
-
+    # system_prompt, cl_eval_prompt_1, cl_eval_prompt_2 = generate_clavie_evaluation()
     lai_prompt_comb = []
 
     for index, row in dataframe.iterrows():
@@ -64,6 +64,7 @@ def create_eval_prompts(dataframe):
         #print("NEEEDT O LOOK FOOR THISSSSSS")
         
         #print(row[-1])
+        # conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(cl_eval_prompt_2, row[1], row[-1])
         conn_laiprompt_gen_radio = connecting_prompt_with_gen_mess(lai_eval_prompt, row[1] , row[-1])
         lai_prompt_comb.append(conn_laiprompt_gen_radio)
     
