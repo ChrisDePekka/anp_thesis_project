@@ -48,7 +48,7 @@ def generate_radio_scores(dataframe, n_s, n_g_r):
         print(dataframe.columns)
 
 
-        ls_n_s = [generate_scores(row["evaluation_prompts"]) for _ in range(n_s)] # a list containing lists. The inner lists are the scores of every radiomessage.
+        ls_n_s = [generate_scores(row["evaluation_prompts"], n_s) for _ in range(n_s)] # a list containing lists. The inner lists are the scores of every radiomessage.
 
         # For this try, I will make the case when the list is empty (no scores are found)
         for i, inner_list in enumerate(ls_n_s):
@@ -104,20 +104,24 @@ def generate_radio_scores(dataframe, n_s, n_g_r):
     print_full(dataframe[-2:][:])
     return dataframe, col_names_per_radio_mes
 
-def generate_scores(eval_prompt):
-    ls_scores_one_eval_run = []
-    #output_LLM = LLM_rms_evaluator(eval_prompt)
-
-    output_LLM = gpt_evaluator(eval_prompt)
-
-    #output_LLM contains the entire output prompt in which the scores are given to the radio messages
-    
-    ls_scores_one_eval_run = re.findall(r"Score: (\d+)\nUitleg:\n(.+)", output_LLM)
+def generate_scores(eval_prompt, n_s):
     int_list = []
+    
+    while len(int_list) != n_s:  # rerun the evaluation prompt until you do get the wanted output.
 
-    # turn into integers
-    for num in ls_scores_one_eval_run:
-        int_list.append(int(num))
+        ls_scores_one_eval_run = []
+        #output_LLM = LLM_rms_evaluator(eval_prompt)
+
+        output_LLM = gpt_evaluator(eval_prompt)
+
+        #output_LLM contains the entire output prompt in which the scores are given to the radio messages
+    
+        ls_scores_one_eval_run = re.findall(r"Score: (\d+)\nUitleg:\n(.+)", output_LLM)
+    
+
+        # turn into integers
+        for num in ls_scores_one_eval_run:
+            int_list.append(int(num))
 
     return int_list
 

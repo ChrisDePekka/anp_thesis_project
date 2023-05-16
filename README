@@ -57,7 +57,7 @@ The scores are taken using regular expression and are selected based on the pres
 The second step is to create a column for each separate radio message, meaning that all the scores given to RadioMessage 1 must be placed together in one list. So, n_g_r columns are created.
 
 Future Changes | Thoughts
-If the output does not match the regular expression, errors will occur. So need to find ways to overcome this.
+If the output does not match the regular expression, errors will occur. So need to find ways to overcome this. I just rerun until I get the wanted output template.
 Also, if more scores are given to the radio messages, the regular expression must be changed as well.
 I added a bit random context to the evaluation prompt, so need to change this.
 _____________________________________________________________________________________________________________________
