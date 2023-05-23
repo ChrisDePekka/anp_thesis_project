@@ -29,7 +29,8 @@ def generate_messages_per_newsitem(input_text, n_g_r):
         #output3 = LLM_rm_generator(input_text[0], input_text[1], input_text[2], input_text[3])
         
         output3 = gpt_generator(input_text[0], input_text[1], input_text[2], input_text[3])
-        
+        # output3 = 
+
         ls_generated_mess.append(output3) 
         j += 1
     return ls_generated_mess # must be returned the final_generated_message

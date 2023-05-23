@@ -26,13 +26,13 @@ if __name__ == "__main__":
     # could make separate columns out of it
     df_with_generated_radio = generate_radio_messages(df_with_prompts_incl_prompt_news, n_g_r)
 
-    # evaluation prompt evaluating "Vloeiendheid"
+    # evaluation prompt evaluating "vloeiendheid"
     aspect_to_evaluate = "vloeiendheid"
     df_with_evaluation_prompts = create_eval_prompts(df_with_generated_radio, aspect_to_evaluate)
 
-    # evaluation prompt evaluating "Relevantie"
+    # evaluation prompt evaluating "relevantie"
 
 
-    # evaluation prompt evaluating "Feitelijkheid"
+    # evaluation prompt evaluating "feitelijkheid"
 
-    # evaluation prompt evaluating "Spreektaal"
+    # evaluation prompt evaluating "spreektaal"
