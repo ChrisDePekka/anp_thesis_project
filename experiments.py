@@ -4,7 +4,7 @@ import pandas as pd
 from data_processing import print_full
 
 # import variables
-from constants import zero_cot, instructions, mock, reit, right, info, name, pos
+from constants import zero_cot, instructions, reit, right, info, name, pos
 
 
 def create_prompt_newsarticle(dataset, llm_model):
@@ -12,8 +12,13 @@ def create_prompt_newsarticle(dataset, llm_model):
     # for now:
     # At the moment I ignored system and user since don't know whether that will be available
     print("type: ", type(dataset))
-
-    clavie_system_prompt, clavie_prompt1, clavie_prompt2, clavie_prompt3 = generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos)
+    if llm_model == 'Claude':
+        mock = False
+        clavie_system_prompt, clavie_prompt1, clavie_prompt2, clavie_prompt3 = generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos)
+    else:
+        mock = True
+        clavie_system_prompt, clavie_prompt1, clavie_prompt2, clavie_prompt3 = generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos)
+    
     # print(clavie_prompt1)
     # print(clavie_prompt2)
     # print(clavie_prompt3)

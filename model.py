@@ -24,7 +24,8 @@ if __name__ == "__main__":
 
 
     # dataframe including the prompt_newsarticle combination
-    df_with_prompts_incl_prompt_news = create_prompt_newsarticle(sample_row_df)
+    lm_model = "Claude"
+    df_with_prompts_incl_prompt_news = create_prompt_newsarticle(sample_row_df, lm_model)
     #print(df_with_prompts_incl_prompt_news)
     # For now, it contains 1 column and each row contains a list of the 10 generated radio messages
     # could make separate columns out of it

@@ -46,6 +46,9 @@ def generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, nam
     if mock:
         mock_prompt =  " Begrijp je dat?"
         prompt1 = prompt1 + mock_prompt
+    else:
+        mock_prompt = " Graag een OK als je dit begrepen hebt."
+        prompt1 = prompt1 + mock_prompt
 
     # loose is not expected to give good results, so I skipped it for now;
 
@@ -146,3 +149,5 @@ def generate_clavie_evaluation(aspect_to_evaluate):
         Voor de volgende radioberichten: \
         Antwoord: denk stap-voor-stap na, zodat je het juiste antwoord bereikt."
     return system_prompt, user_prompt_1, user_prompt_2
+
+def claude_prompt()
