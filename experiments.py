@@ -5,9 +5,9 @@ from data_processing import print_full
 
 # import variables
 from constants import zero_cot, instructions, mock, reit, right, info, name, pos
-from constants import evaluate_aspect
 
-def create_prompt_newsarticle(dataset):
+
+def create_prompt_newsarticle(dataset, llm_model):
 
     # for now:
     # At the moment I ignored system and user since don't know whether that will be available

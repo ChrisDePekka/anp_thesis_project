@@ -1,8 +1,8 @@
-from vertexai.preview.language_models import ChatModel, InputOutputTextPair
+#from vertexai.preview.language_models import ChatModel, InputOutputTextPair
 from data_processing import get_data
 from constants import examples, csv_file, n_of_examples
 import openai
-from config import api_key
+from config import api_key_1
 import asyncio
 import os
 import anthropic
@@ -12,7 +12,7 @@ import anthropic
 
 def LLM_rm_generator(input_system_prompt, input_prompt1, input_prompt2, input_prompt3, temperature=.2):
 
-    chat_model = ChatModel.from_pretrained("chat-bison@001")
+    #chat_model = ChatModel.from_pretrained("chat-bison@001")
 
     # TODO developer - override these parameters as needed:
     parameters = {
@@ -146,24 +146,45 @@ def gpt_evaluator(input):
 
 def claude_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3, temperature=.2):
      # in gpt, everything must be put into 1 string.
-    import openai
-    my_api = api_key
+    #import openai
+    my_api = api_key_1
     user_prompt1 = "\n\nHuman: " + input_prompt1 + "\n\nAssistant:"
     user_prompt2 = "\n\nHuman: " + input_prompt2 + "\n\nAssistant:"
     user_prompt3 = "\n\nHuman: " + input_prompt3 + "\n\nAssistant:"
     final_user_prompt = user_prompt1 + user_prompt2 + user_prompt3
     print(final_user_prompt)
     
-    # c = anthropic.Client(os.environ["ANTHROPIC_API_KEY"])
-    # resp = await c.acompletion(
-    #     prompt=f"{anthropic.HUMAN_PROMPT} How many toes do dogs have?{anthropic.AI_PROMPT}",
-    #     stop_sequences=[anthropic.HUMAN_PROMPT],
-    #     model="claude-v1",
-    #     max_tokens_to_sample=max_tokens_to_sample,
-    # )
-    # print(resp)
-    # }'
-    return response.choices[0].message.content
+    #c = anthropic.Client(os.environ["ANTHROPIC_API_KEY"])
+    max_tokens_to_sample = 100
+    c = anthropic.Client(api_key = my_api)
+    resp = c.completion( prompt=user_prompt1,
+        model="claude-v1",
+        max_tokens_to_sample=max_tokens_to_sample,
+    )
+    print(resp)
+    
+    return resp
     #generated_outputs = generate_radio_mes(prompt_news_art)
     
     #return print("This is the generated output", generated_outputs)
+
+
+def claude_evaluator(input):
+     # in gpt, everything must be put into 1 string.
+    #import openai
+    my_api = api_key_1
+    user_prompt1 = "\n\nHuman: " + input + "\n\nAssistant:"
+
+    final_user_prompt = user_prompt1
+    print(final_user_prompt)
+    
+    #c = anthropic.Client(os.environ["ANTHROPIC_API_KEY"])
+    max_tokens_to_sample = 100
+    c = anthropic.Client(api_key = my_api)
+    resp = c.completion( prompt=user_prompt1,
+        model="claude-v1",
+        max_tokens_to_sample=max_tokens_to_sample,
+    )
+    print(resp)
+    
+    return resp
