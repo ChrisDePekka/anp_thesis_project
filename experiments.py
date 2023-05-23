@@ -44,42 +44,33 @@ def create_prompt_newsarticle(dataset, llm_model):
     dataset.loc[:, 'cl_prompt3'] = cl_prompt3
 
 
-
-    # dataset['cl_systemprompt'] = cl_system
-    # dataset['cl_prompt1'] = cl_prompt1
-    # dataset['cl_prompt2'] = cl_prompt2
-    # dataset['cl_prompt3'] = cl_prompt3
-
-    # print(dataset[:5])
-    # print(dataset.columns)
-    # print(dataset['cl_prompt2'][:5])
-    # print_full(dataset)
     return dataset
     #print(prompts_same_length[:5], prompt_news_combi[:1], radio_mes_ext[:1])
 
 
-def create_eval_prompts(dataframe, evaluate_aspect):
-    lai_eval_prompt = generate_lai_eval_prompts()
-    lai_prompt_comb = []
-
-    system_prompt, cl_eval_prompt_1, cl_eval_prompt_2 = generate_clavie_evaluation(evaluate_aspect)
-    cl_eval_comb = []
-    print(cl_eval_prompt_2)
+def create_eval_prompts(dataframe, evaluate_aspect, lai_var):
+    if lai_var == True:
+        lai_eval_prompt = generate_lai_eval_prompts()
+        lai_prompt_comb = []
+    else:
+        lai_like_prompt = generate_clavie_evaluation(evaluate_aspect)
+        cl_eval_comb = []
     
 
     for index, row in dataframe.iterrows():
-        #print(row[1]) # is the news_article
-        # I want to get the last column, since those contain the n generated messages
-        #print("NEEEDT O LOOK FOOR THISSSSSS")
-        
-        #print(row[-1])
-        conn_laiprompt_gen_radio = connecting_prompt_with_gen_mess(lai_eval_prompt, row[1] , row[-1])
-        lai_prompt_comb.append(conn_laiprompt_gen_radio)
+        if lai_var == True:
+            conn_laiprompt_gen_radio = connecting_prompt_with_gen_mess(lai_eval_prompt, row[1] , row[-1])
+            lai_prompt_comb.append(conn_laiprompt_gen_radio)
+        else:
 
-        conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(cl_eval_prompt_2, row[1], row[-1])
-        cl_eval_comb.append(conn_clavie_eval_gen_radio)
+            conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(lai_like_prompt, row[1], row[-1])
+            cl_eval_comb.append(conn_clavie_eval_gen_radio)
     
-    dataframe.loc[:, 'evaluation_prompts'] = lai_prompt_comb
-    print(dataframe['evaluation_prompts'])
+    if lai_var == True:
+        dataframe.loc[:, 'evaluation_prompts'] = lai_prompt_comb
+        print(dataframe['evaluation_prompts'])
+    else:
+        dataframe.loc[:, 'evaluation_prompts'] = cl_eval_comb
+        print(dataframe['evaluation_prompts'])
     #dataframe['evaluation_prompts'] = lai_prompt_comb
     return dataframe

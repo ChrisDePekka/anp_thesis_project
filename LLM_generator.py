@@ -148,43 +148,58 @@ def claude_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3,
      # in gpt, everything must be put into 1 string.
     #import openai
     my_api = api_key_1
-    user_prompt1 = "\n\nHuman: " + input_prompt1 + "\n\nAssistant:"
+    user_prompt1 = "\n\nHuman: " + system_prompt + " " + input_prompt1 + "\n\nAssistant:"
     user_prompt2 = "\n\nHuman: " + input_prompt2 + "\n\nAssistant:"
     user_prompt3 = "\n\nHuman: " + input_prompt3 + "\n\nAssistant:"
-    final_user_prompt = user_prompt1 + user_prompt2 + user_prompt3
-    print(final_user_prompt)
+    #final_user_prompt = user_prompt1 + user_prompt2 + user_prompt3
+    #print(final_user_prompt)
     
     #c = anthropic.Client(os.environ["ANTHROPIC_API_KEY"])
-    max_tokens_to_sample = 100
+    #max_tokens_to_sample = 100
     c = anthropic.Client(api_key = my_api)
-    resp = c.completion( prompt=user_prompt1,
+    resp1 = c.completion( prompt=user_prompt1,
         model="claude-v1",
-        max_tokens_to_sample=max_tokens_to_sample,
     )
-    print(resp)
+    print(type(resp1))
+    print()
+    print(resp1['completion'].strip())
+    completed_resp1 = resp1['completion'].strip()
+    print("Does this give a response?")
     
-    return resp
+    resp2 = c.completion( prompt=user_prompt1 + completed_resp1 + user_prompt2,
+        model="claude-v1",
+    )
+    print(resp2['completion'].strip())
+    completed_resp2 = resp2['completion'].strip()
+    resp3 = c.completion( prompt=user_prompt1 + completed_resp1 + user_prompt2 + completed_resp2 + user_prompt3,
+        model="claude-v1",
+    )
+    print(resp3['completion'].strip())
+    gen_rm = remove_text_before_enter(resp3['completion'].strip())
+    return gen_rm
     #generated_outputs = generate_radio_mes(prompt_news_art)
     
     #return print("This is the generated output", generated_outputs)
 
+def remove_text_before_enter(text):
+    if '\n\n' in text:               # I check whether )space is before the dash, since it could be that it merely connects words.
+                                    # by doing this, those dashes are not impacted
+        text = text.split('\n\n', 1)[1].strip()  # I remove everything standing before the dash.
+    return text
 
 def claude_evaluator(input):
      # in gpt, everything must be put into 1 string.
     #import openai
     my_api = api_key_1
     user_prompt1 = "\n\nHuman: " + input + "\n\nAssistant:"
-
-    final_user_prompt = user_prompt1
-    print(final_user_prompt)
-    
-    #c = anthropic.Client(os.environ["ANTHROPIC_API_KEY"])
-    max_tokens_to_sample = 100
+    #max_tokens_to_sample = 100
     c = anthropic.Client(api_key = my_api)
-    resp = c.completion( prompt=user_prompt1,
+    resp1 = c.completion( prompt=user_prompt1,
         model="claude-v1",
-        max_tokens_to_sample=max_tokens_to_sample,
     )
-    print(resp)
+    print(type(resp1))
+    print()
+    print(resp1['completion'].strip())
+    completed_resp1 = resp1['completion'].strip()
     
-    return resp
+    return completed_resp1

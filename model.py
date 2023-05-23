@@ -26,16 +26,21 @@ if __name__ == "__main__":
     # dataframe including the prompt_newsarticle combination
     lm_model = "Claude"
     df_with_prompts_incl_prompt_news = create_prompt_newsarticle(sample_row_df, lm_model)
+
+    print(df_with_prompts_incl_prompt_news)
     #print(df_with_prompts_incl_prompt_news)
     # For now, it contains 1 column and each row contains a list of the 10 generated radio messages
     # could make separate columns out of it
-    df_with_generated_radio = generate_radio_messages(df_with_prompts_incl_prompt_news, n_g_r)
+    df_with_generated_radio = generate_radio_messages(df_with_prompts_incl_prompt_news, n_g_r, lm_model)
     #print(df_with_generated_radio)
-    
+    intermediate_gen_mess_result_df = df_with_generated_radio
+    intermediate_gen_mess_result_df.to_csv('fourthresults.csv', index=False)
 
-
+    lai = False
+    eval_aspect = "vloeiendheid"
         # evaluation prompts
-    df_with_evaluation_prompts = create_eval_prompts(df_with_generated_radio)
+    df_with_evaluation_prompts = create_eval_prompts(df_with_generated_radio, eval_aspect, lai)
+
     #print_full(df_with_evaluation_prompts)
 
     # generate the scores belonging to each generated radio-message.
@@ -45,7 +50,7 @@ if __name__ == "__main__":
     # radio mess
     # col_names_scores contain the scores per radio message
 
-    df_with_evaluation_scores, col_names_scores = generate_radio_scores(df_with_evaluation_prompts, n_s, n_g_r)
+    df_with_evaluation_scores, col_names_scores = generate_radio_scores(df_with_evaluation_prompts, n_s, n_g_r, lm_model)
     print_full(df_with_evaluation_scores)
     print(df_with_evaluation_scores.columns)
     # post processing dataframe
@@ -54,9 +59,10 @@ if __name__ == "__main__":
     # Step 3: In the final two columns, place the found mean of the highest radio message, place the best-found generated radio-mess. 
     final_df_incl_best_found_output = post_processing(df_with_evaluation_scores, n_g_r, col_names_scores)
 
-    final_df_incl_best_found_output.to_csv('secondresults.csv', index=False)
+    final_df_incl_best_found_output.to_csv('final_fifth_results.csv', index=False)
 
-    print_full(final_df_incl_best_found_output)
+    #print_full(final_df_incl_best_found_output)
+
 
 
 

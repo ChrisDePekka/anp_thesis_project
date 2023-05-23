@@ -131,15 +131,6 @@ def generate_clavie_evaluation(aspect_to_evaluate):
     system_prompt =  f"Jij bent Jan, een AI beoordelaar die expert is in het beoordelen van radio berichten. Jouw taak is om elk radiobericht te beoordelen op {aspect_to_evaluate}. \
     Denk eraan, jij bent de beste AI journalist en je gebruikt jouw expertise om de kwaliteit van de radio berichten \
     te beoordelen."
-    # user_prompt_1 = f"Een radio bericht is goed als het de essentie van het nieuwsbericht bezit. Het moet kort en bondig zijn. Het hoofdonderwerp moet in de eerste zin naar voren komen. \
-    #     Minder belangrijke nieuwsfeiten moeten niet benoemd worden. Ieder nieuwsfeit mag maar 1 keer benoemd worden. De informatie in het radiobericht moet uit het nieuwsbericht afkomstig zijn. \
-    #     Nu geef ik jou de radioberichten en jij beoordeelt ze, stap-voor-stap, en geeft vervolgens een score op basis van {aspect_to_evaluate}. \
-    #     Het evaluatieformat ziet er zo uit: \
-    #         Radiobericht 1: \
-    #         Score vloeiendheid: \
-    #         Score feitelijke correctheid: \
-    #         Score radio stijl: \
-    #     Begrijp je dat?"
     user_prompt_1 = user_prompt + " \
         Begrijp je dat?"
 
@@ -148,6 +139,9 @@ def generate_clavie_evaluation(aspect_to_evaluate):
         Nieuwsbericht: \
         Voor de volgende radioberichten: \
         Antwoord: denk stap-voor-stap na, zodat je het juiste antwoord bereikt."
-    return system_prompt, user_prompt_1, user_prompt_2
+    
+    # For now, I just treat is as a lai prompt since otherwise it becomes too complex at the moment
+    lai_like_prompt = user_prompt
+    return lai_like_prompt
+    #return system_prompt, user_prompt_1, user_prompt_2
 
-def claude_prompt()
