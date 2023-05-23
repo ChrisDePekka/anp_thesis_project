@@ -5,7 +5,7 @@ from data_processing import print_full
 
 # import variables
 from constants import zero_cot, instructions, mock, reit, right, info, name, pos
-
+from constants import evaluate_aspect
 
 def create_prompt_newsarticle(dataset):
 
@@ -53,11 +53,11 @@ def create_prompt_newsarticle(dataset):
     #print(prompts_same_length[:5], prompt_news_combi[:1], radio_mes_ext[:1])
 
 
-def create_eval_prompts(dataframe):
+def create_eval_prompts(dataframe, evaluate_aspect):
     lai_eval_prompt = generate_lai_eval_prompts()
     lai_prompt_comb = []
 
-    system_prompt, cl_eval_prompt_1, cl_eval_prompt_2 = generate_clavie_evaluation()
+    system_prompt, cl_eval_prompt_1, cl_eval_prompt_2 = generate_clavie_evaluation(evaluate_aspect)
     cl_eval_comb = []
     print(cl_eval_prompt_2)
     

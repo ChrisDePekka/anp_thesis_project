@@ -93,7 +93,7 @@ def LLM_rms_evaluator(input_eval_prompt, temperature=.2):
 def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3, temperature=.2):
      # in gpt, everything must be put into 1 string.
     import openai
-    openai.api_key = "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"
+    #openai.api_key = "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"
     user_prompt1 = input_prompt1 + "1\n"
     user_prompt2 = input_prompt2 + "2\n"
     user_prompt3 = input_prompt3 + "\n"

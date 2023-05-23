@@ -84,14 +84,51 @@ def generate_lai_eval_prompts():
 
 
 
-def generate_clavie_evaluation():
+def generate_clavie_evaluation(aspect_to_evaluate):
+    if aspect_to_evaluate == "vloeiendheid":
+        user_prompt = "Voor de taak om van nieuwsberichten radio-berichten te creeëren, geef een score aan de mate waarin de tekst vloeiend is \
+        op een schaal van 0 tot 100. 100 geef je als alle zinnen natuurlijk in elkaar overgaan en het een coherent verhaal is. \
+           0 geef je als het verhaal helemaal niet vloeiend loopt en zinnen een slechte overgang hebben. \
+                Het evaluatie format is zo: \
+                Output 1: \
+                Score 1: \
+                Uitleg 1: \
+                ———————"
+    elif aspect_to_evaluate == "relevantie":
+        user_prompt = "Voor de taak om van nieuwsberichten radio-berichten te creeëren, geef een score aan de mate waarin de tekst relevante informatie bevat \
+        op een schaal van 0 tot 100. 100 geef je als het radiobericht de belangrijkste informatie bezit die moet worden overgebracht. Er moet geen irrelevante informatie instaan, \
+           dus de tekst moet ook kort en bondig zijn. 0 geef je als irrelevante informatie wordt gegeven of als het bericht te lang is. \
+                Het evaluatie format is zo: \
+                Output 1: \
+                Score 1: \
+                Uitleg 1: \
+                ———————"
+    elif aspect_to_evaluate == "feitelijkeheid":
+        user_prompt = "Voor de taak om van nieuwsberichten radio-berichten te creeëren, geef een score aan de mate waarin de tekst feitelijk is \
+        op een schaal van 0 tot 100. 100 geef je als het radiobericht alleen feiten bevat die uit het nieuwsbericht komen. \
+           0 geef je als er dingen beschreven zijn die feitelijk onjuist zijn met betrekking tot het nieuwsbericht. \
+                Het evaluatie format is zo: \
+                Output 1: \
+                Score 1: \
+                Uitleg 1: \
+                ———————"
+    else:
+        user_prompt = "Voor de taak om van nieuwsberichten radio-berichten te creeëren, geef een score aan de mate waarin de tekst feitelijk is \
+        op een schaal van 0 tot 100. 100 geef je als het radiobericht alleen feiten bevat die uit het nieuwsbericht komen. \
+           0 geef je als er dingen beschreven zijn die feitelijk onjuist zijn met betrekking tot het nieuwsbericht. \
+                Het evaluatie format is zo: \
+                Output 1: \
+                Score 1: \
+                Uitleg 1: \
+                ———————"
+
     # Using clavie's strategies to create an evaluation prompt. outputs three scores
-    system_prompt =  "Jij bent Erik, een AI journalist die expert is in het beoordelen van radio berichten. Jouw taak is om elk radiobericht te beoordelen op kwaliteit. \
-    Jij controleert de radioberichten op basis van vloeiendheid, feitelijke correctheid, en de radio stijl. Denk eraan, jij bent de beste AI journalist en je gebruikt jouw expertise om de kwaliteit van de radio berichten \
+    system_prompt =  f"Jij bent Erik, een AI beoordelaar die expert is in het beoordelen van radio berichten. Jouw taak is om elk radiobericht te beoordelen op {aspect_to_evaluate}. \
+    Denk eraan, jij bent de beste AI journalist en je gebruikt jouw expertise om de kwaliteit van de radio berichten \
     te beoordelen."
-    user_prompt_1 = "en radio bericht is goed als het de essentie van het nieuwsbericht bezit. Het moet kort en bondig zijn. Het hoofdonderwerp moet in de eerste zin naar voren komen. \
+    user_prompt_1 = f"Een radio bericht is goed als het de essentie van het nieuwsbericht bezit. Het moet kort en bondig zijn. Het hoofdonderwerp moet in de eerste zin naar voren komen. \
         Minder belangrijke nieuwsfeiten moeten niet benoemd worden. Ieder nieuwsfeit mag maar 1 keer benoemd worden. De informatie in het radiobericht moet uit het nieuwsbericht afkomstig zijn. \
-        Nu geef ik jou de radioberichten en jij beoordeelt ze, stap-voor-stap, en geeft vervolgens scores op basis van van vloeiendheid, feitelijke correctheid,en radio stijl. \
+        Nu geef ik jou de radioberichten en jij beoordeelt ze, stap-voor-stap, en geeft vervolgens een score op basis van {aspect_to_evaluate}. \
         Het evaluatieformat ziet er zo uit: \
             Radiobericht 1: \
             Score vloeiendheid: \
