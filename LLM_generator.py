@@ -155,10 +155,11 @@ def claude_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3,
     #print(final_user_prompt)
     
     #c = anthropic.Client(os.environ["ANTHROPIC_API_KEY"])
-    #max_tokens_to_sample = 100
+    max_tokens_to_sample = 200
     c = anthropic.Client(api_key = my_api)
     resp1 = c.completion( prompt=user_prompt1,
         model="claude-v1",
+        max_tokens_to_sample = max_tokens_to_sample,
     )
     print(type(resp1))
     print()
@@ -168,11 +169,13 @@ def claude_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3,
     
     resp2 = c.completion( prompt=user_prompt1 + completed_resp1 + user_prompt2,
         model="claude-v1",
+        max_tokens_to_sample = max_tokens_to_sample,
     )
     print(resp2['completion'].strip())
     completed_resp2 = resp2['completion'].strip()
     resp3 = c.completion( prompt=user_prompt1 + completed_resp1 + user_prompt2 + completed_resp2 + user_prompt3,
         model="claude-v1",
+        max_tokens_to_sample = max_tokens_to_sample,
     )
     print(resp3['completion'].strip())
     gen_rm = remove_text_before_enter(resp3['completion'].strip())
@@ -192,10 +195,11 @@ def claude_evaluator(input):
     #import openai
     my_api = api_key_1
     user_prompt1 = "\n\nHuman: " + input + "\n\nAssistant:"
-    #max_tokens_to_sample = 100
+    max_tokens_to_sample = 100
     c = anthropic.Client(api_key = my_api)
     resp1 = c.completion( prompt=user_prompt1,
         model="claude-v1",
+        max_tokens_to_sample = max_tokens_to_sample
     )
     print(type(resp1))
     print()

@@ -62,8 +62,8 @@ def create_eval_prompts(dataframe, evaluate_aspect, lai_var):
             conn_laiprompt_gen_radio = connecting_prompt_with_gen_mess(lai_eval_prompt, row[1] , row[-1])
             lai_prompt_comb.append(conn_laiprompt_gen_radio)
         else:
-
-            conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(lai_like_prompt, row[1], row[-1])
+            lai_variant = True
+            conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(lai_like_prompt, row[1], row[-1], lai_variant)
             cl_eval_comb.append(conn_clavie_eval_gen_radio)
     
     if lai_var == True:

@@ -37,15 +37,26 @@ def connecting_prompt_with_gen_mess(lai_prompt, news_art, gen_mess):
     return lai_combi
 
 
-def connecting_clavie_prompt_with_gen_mess(input_clavie_eval_2, input_news, input_radios):
-    pattern = r"Nieuwsbericht: (.*)"
-    replacement = r"Nieuwsbericht: " + input_news + r" \1"
-    combi_with_news = re.sub(pattern, replacement, input_clavie_eval_2)
-    pattern2 = r"Voor de volgende radioberichten: (.*)"
-    replacement2 = r"Voor de volgende radioberichten: " + create_str_gen_rm(input_radios) + r" \1"
-    final_cl_eval_prompt = re.sub(pattern2, replacement2, combi_with_news)
-    print_full(final_cl_eval_prompt)
-    return final_cl_eval_prompt
+def connecting_clavie_prompt_with_gen_mess(input_clavie_eval_2, input_news, input_radios, lai_variant):
+    if lai_variant == True:
+        
+        lai_var_combi = input_clavie_eval_2+ f"Nieuwsbericht: {input_news}"
+        #print(lai_combi)
+        counter = 0
+        for i in input_radios:
+            counter += 1
+            lai_var_fin_combi = lai_var_combi + f"Output {counter}: {i} "
+            return lai_var_fin_combi
+
+    else:
+        pattern = r"Nieuwsbericht: (.*)"
+        replacement = r"Nieuwsbericht: " + input_news + r" \1"
+        combi_with_news = re.sub(pattern, replacement, input_clavie_eval_2)
+        pattern2 = r"Voor de volgende radioberichten: (.*)"
+        replacement2 = r"Voor de volgende radioberichten: " + create_str_gen_rm(input_radios) + r" \1"
+        final_cl_eval_prompt = re.sub(pattern2, replacement2, combi_with_news)
+        print_full(final_cl_eval_prompt)
+        return final_cl_eval_prompt
 
 def create_str_gen_rm( in_radios):
     print("Search here for: ")
