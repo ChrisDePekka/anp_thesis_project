@@ -2,7 +2,10 @@ from vertexai.preview.language_models import ChatModel, InputOutputTextPair
 from data_processing import get_data
 from constants import examples, csv_file, n_of_examples
 import openai
-
+from config import api_key
+import asyncio
+import os
+import anthropic
 
 
 
@@ -144,26 +147,22 @@ def gpt_evaluator(input):
 def claude_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3, temperature=.2):
      # in gpt, everything must be put into 1 string.
     import openai
-    #openai.api_key = "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"
+    my_api = api_key
     user_prompt1 = "\n\nHuman: " + input_prompt1 + "\n\nAssistant:"
     user_prompt2 = "\n\nHuman: " + input_prompt2 + "\n\nAssistant:"
     user_prompt3 = "\n\nHuman: " + input_prompt3 + "\n\nAssistant:"
     final_user_prompt = user_prompt1 + user_prompt2 + user_prompt3
     print(final_user_prompt)
     
-    #return "test_radio_mess"
-    response = openai.ChatCompletion.create(
-                model = "gpt-3.5-turbo", 
-            messages=[
-            {"role":"system", "content":system_prompt},
-            {"role":"user", "content": final_user_prompt}
-            ]
-            ,
-            max_tokens = 150,
-            temperature = 0.8,
-            n = 1,
-            stop = None
-            )
+    # c = anthropic.Client(os.environ["ANTHROPIC_API_KEY"])
+    # resp = await c.acompletion(
+    #     prompt=f"{anthropic.HUMAN_PROMPT} How many toes do dogs have?{anthropic.AI_PROMPT}",
+    #     stop_sequences=[anthropic.HUMAN_PROMPT],
+    #     model="claude-v1",
+    #     max_tokens_to_sample=max_tokens_to_sample,
+    # )
+    # print(resp)
+    # }'
     return response.choices[0].message.content
     #generated_outputs = generate_radio_mes(prompt_news_art)
     

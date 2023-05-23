@@ -1,5 +1,5 @@
 import re
-from LLM_generator import LLM_rm_generator, LLM_rms_evaluator, gpt_generator, gpt_evaluator
+from LLM_generator import LLM_rm_generator, LLM_rms_evaluator, gpt_generator, gpt_evaluator, claude_generator, claude_evaluator
 from data_processing import print_full
 def generate_radio_messages(dataframe, n_g_r):
     ls_all_news_gen_mess = []
@@ -28,8 +28,8 @@ def generate_messages_per_newsitem(input_text, n_g_r):
         # output 3 should be the final shortened radio message
         #output3 = LLM_rm_generator(input_text[0], input_text[1], input_text[2], input_text[3])
         
-        output3 = gpt_generator(input_text[0], input_text[1], input_text[2], input_text[3])
-        # output3 = 
+        #output3 = gpt_generator(input_text[0], input_text[1], input_text[2], input_text[3])
+        output3 = claude_generator(input_text[0], input_text[1], input_text[2], input_text[3])
 
         ls_generated_mess.append(output3) 
         j += 1
