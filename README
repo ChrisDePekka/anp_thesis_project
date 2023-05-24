@@ -11,6 +11,7 @@ Future Changes | Thoughts
 The radio_bodytext and news_category are both currently not used 
 The selected radio messages are sequentially selected with no attention given to e.g. their place in the radio bulletin. In the future, there could be attention given to it and/or messages must be selected more random to get a more diverse set of news.
 The dataset now is 130 rows, this could be lowered/increased depending on computational time and significance/ generalizability of the results.
+The news article still contains < p> things. Should those be removed?
 _____________________________________________________________________________________________________________________
 
 The number of generated radio messages is specified via n_g_r.
