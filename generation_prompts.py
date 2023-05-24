@@ -93,27 +93,27 @@ def generate_clavie_evaluation(aspect_to_evaluate):
         op een schaal van 0 tot 100. 100 geef je als alle zinnen natuurlijk in elkaar overgaan en het een coherent verhaal is. \
            0 geef je als het verhaal helemaal niet vloeiend loopt en zinnen een slechte overgang hebben. \
                 Het evaluatie format is zo: \
-                Output 1: \
-                Score 1: \
-                Uitleg 1: \
+                Output A: \
+                Score A: \
+                Uitleg A: \
                 ———————"
     elif aspect_to_evaluate == "relevantie":
         user_prompt = "Voor de taak om van nieuwsberichten radio-berichten te creeëren, geef een score aan de mate waarin de tekst relevante informatie bevat \
         op een schaal van 0 tot 100. 100 geef je als het radiobericht de belangrijkste informatie bezit die moet worden overgebracht. Er mag geen overbodige informatie instaan, \
            dus de tekst moet ook kort en bondig zijn. 0 geef je als irrelevante informatie wordt gegeven of als het bericht te lang is. \
                 Het evaluatie format is zo: \
-                Output 1: \
-                Score 1: \
-                Uitleg 1: \
+                Output A: \
+                Score A: \
+                Uitleg A: \
                 ———————"
     elif aspect_to_evaluate == "feitelijkeheid":
         user_prompt = "Voor de taak om van nieuwsberichten radio-berichten te creeëren, geef een score aan de mate waarin de tekst feitelijk is \
         op een schaal van 0 tot 100. 100 geef je als het radiobericht alleen feiten bevat die uit het nieuwsbericht komen. \
            0 geef je als er dingen beschreven zijn die feitelijk onjuist zijn met betrekking tot het nieuwsbericht. \
                 Het evaluatie format is zo: \
-                Output 1: \
-                Score 1: \
-                Uitleg 1: \
+                Output A: \
+                Score A: \
+                Uitleg A: \
                 ———————"
     else:
         # Spreektaal
@@ -122,9 +122,9 @@ def generate_clavie_evaluation(aspect_to_evaluate):
             Lange zinnen en tussenzinnen moeten vermeden worden. \
            0 geef je als er lange zinnen instaan en moeilijke woorden worden gebruikt. \
                 Het evaluatie format is zo: \
-                Output 1: \
-                Score 1: \
-                Uitleg 1: \
+                Output A: \
+                Score A: \
+                Uitleg A: \
                 ———————"
 
     # Using clavie's strategies to create an evaluation prompt. outputs three scores

@@ -42,15 +42,12 @@ def generate_radio_scores(dataframe, n_s, n_g_r, llm_model):
 
     col_names = ['eval_scores_run_{}'.format(g+1) for g in range(n_s)]
     for col_name in col_names:
-        dataframe[col_name] = None
-
+        dataframe.loc[:, col_name] = None
 
     for index, row in dataframe.iterrows():
-        print(dataframe.columns)
-
 
         ls_n_s = [generate_scores(row["evaluation_prompts"], n_s, llm_model) for _ in range(n_s)] # a list containing lists. The inner lists are the scores of every radiomessage.
-        print(ls_n_s)
+
         # For this try, I will make the case when the list is empty (no scores are found)
         for i, inner_list in enumerate(ls_n_s):
             # Check if the inner list is empty
@@ -61,8 +58,10 @@ def generate_radio_scores(dataframe, n_s, n_g_r, llm_model):
                 ls_n_s[i] = [10, 20]
 
         for i, col_name in enumerate(col_names):
-            print(col_name)
-            dataframe.loc[index, col_name] = ls_n_s[i]
+            dataframe.at[index, col_name] = ls_n_s[i]
+            # Need to use .at instead of .loc, since the column will first contain a list and second row None, which are two different
+            # data types
+            #dataframe.loc[index, col_name] = ls_n_s[i]
 
 
     # I am unsure whether this is the correct way. 
@@ -70,12 +69,9 @@ def generate_radio_scores(dataframe, n_s, n_g_r, llm_model):
     # Weet niet of het zo klopt, maar lastig te controleren als je de output niet kent.
     col_names_per_radio_mes = []
     for g in range(n_g_r):
-        print("heeeere")
-        print(g)
+
         col_name_per_radio_mes = "eval_scores_gen_radio_mess_" + str(g+1)
         col_names_per_radio_mes.append(col_name_per_radio_mes )
-        print(col_name_per_radio_mes)
-    print(col_names_per_radio_mes)
     #content_scores_radio_mess = []
 
     for a in col_names_per_radio_mes:
@@ -103,7 +99,7 @@ def generate_radio_scores(dataframe, n_s, n_g_r, llm_model):
         counter2 += 1
 
 
-    print_full(dataframe[-2:][:])
+    #print_full(dataframe[-2:][:])
     return dataframe, col_names_per_radio_mes
 
 def generate_scores(eval_prompt, n_s, llm_model):
@@ -120,14 +116,14 @@ def generate_scores(eval_prompt, n_s, llm_model):
 
         #output_LLM contains the entire output prompt in which the scores are given to the radio messages
         #ls_scores_one_eval_run = re.findall(r"Score: (\d+)\nUitleg:\n(.+)", output_LLM)
-        ls_scores_one_eval_run = re.findall(r"Score\D*(\d+)", output_LLM)
+        ls_scores_one_eval_run = re.findall(r"Score.*?(\d+)", output_LLM)
         # numbers = re.findall(r"Score\D*(\d+)", output_LLM)
     
 
         # turn into integers
         for num in ls_scores_one_eval_run:
             int_list.append(int(num))
-
+    print("length:", len(int_list))
     return int_list
 
 

@@ -43,9 +43,11 @@ def connecting_clavie_prompt_with_gen_mess(input_clavie_eval_2, input_news, inpu
         lai_var_combi = input_clavie_eval_2+ f"Nieuwsbericht: {input_news}"
         #print(lai_combi)
         counter = 0
+        ls_alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', "J", 'K']
         for i in input_radios:
             counter += 1
-            lai_var_fin_combi = lai_var_combi + f"Output {counter}: {i} "
+
+            lai_var_fin_combi = lai_var_combi + f"Output {ls_alphabet[counter]}: {i} "
             return lai_var_fin_combi
 
     else:
@@ -55,22 +57,19 @@ def connecting_clavie_prompt_with_gen_mess(input_clavie_eval_2, input_news, inpu
         pattern2 = r"Voor de volgende radioberichten: (.*)"
         replacement2 = r"Voor de volgende radioberichten: " + create_str_gen_rm(input_radios) + r" \1"
         final_cl_eval_prompt = re.sub(pattern2, replacement2, combi_with_news)
-        print_full(final_cl_eval_prompt)
+        #print_full(final_cl_eval_prompt)
         return final_cl_eval_prompt
 
 def create_str_gen_rm( in_radios):
-    print("Search here for: ")
     #print(comb_w_news)
     #output_ls = []
     #empty_str = ''
     #print(in_radios)
     cl_eval_rm_combi = ''
-    counter = 0
+    counter = -1
     for j in in_radios:
         counter += 1
         cl_eval_rm_combi += f"Radiobericht {counter}: {j} "
         #cl_eval_rm_combi += cl_eval_rm_combi
-        print("here")
-        print(cl_eval_rm_combi)
-        print("clear")
+
     return cl_eval_rm_combi

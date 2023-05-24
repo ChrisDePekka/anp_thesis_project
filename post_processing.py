@@ -33,14 +33,14 @@ def post_processing(df, n_g_r, col_names_scores):
             #mean_score_per_radio_mess.append([np.mean(row[col_name]) for col_name in col_names_scores])
             #mean_score_per_radio_mess.append([row[col_name].apply(mean_func) for col_name in col_names_scores])
                 print(mean_score_per_radio_mess)
-
-            df[col_names_mean_per_radio_mes[counter2]] = mean_score_per_radio_mess
+            df.loc[index, col_names_mean_per_radio_mes] = mean_score_per_radio_mess
+            #df[col_names_mean_per_radio_mes[counter2]] = mean_score_per_radio_mess
 
             mean_score_per_radio_mess.clear()
         counter += 1 
         counter2 += 1
 
-
+    #print_full("Dataframe:", df)
     # Select the radio message with the highest mean value
     max_func = lambda x: max([int(i) for i in x])
     #max_func_col = lambda x: df.columns[x.argmax()][-n_g_r:]

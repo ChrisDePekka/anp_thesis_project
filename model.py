@@ -21,6 +21,7 @@ if __name__ == "__main__":
 
     # Use only the first row to show that it works
     sample_row_df = dataset_to_generate.iloc[0:2]
+    #print("LOOKAT HMEEEEE", prin)
 
 
     # dataframe including the prompt_newsarticle combination
@@ -32,9 +33,10 @@ if __name__ == "__main__":
     # For now, it contains 1 column and each row contains a list of the 10 generated radio messages
     # could make separate columns out of it
     df_with_generated_radio = generate_radio_messages(df_with_prompts_incl_prompt_news, n_g_r, lm_model)
-    #print(df_with_generated_radio)
+    print("look me", df_with_generated_radio)
     intermediate_gen_mess_result_df = df_with_generated_radio
-    intermediate_gen_mess_result_df.to_csv('ninethresults.csv', index=False)
+    print(intermediate_gen_mess_result_df)
+    #intermediate_gen_mess_result_df.to_csv('ninethresults.csv', index=False)
 
     lai = False
     eval_aspect = "vloeiendheid"
@@ -59,7 +61,7 @@ if __name__ == "__main__":
     # Step 3: In the final two columns, place the found mean of the highest radio message, place the best-found generated radio-mess. 
     final_df_incl_best_found_output = post_processing(df_with_evaluation_scores, n_g_r, col_names_scores)
 
-    final_df_incl_best_found_output.to_csv('final_nineth_results.csv', index=False)
+    final_df_incl_best_found_output.to_csv('final_ten_results.csv', index=False)
 
     #print_full(final_df_incl_best_found_output)
 
