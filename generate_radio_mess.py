@@ -79,11 +79,6 @@ def generate_radio_scores(dataframe, n_s, n_g_r, llm_model):
         dataframe.loc[:, column_name] = None
 
 
-
-
-
-
-
     counter = 0
     counter2 = 0
     while counter < n_g_r:
