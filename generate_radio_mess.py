@@ -67,6 +67,8 @@ def generate_radio_scores(dataframe, n_s, n_g_r, llm_model):
     # I am unsure whether this is the correct way. 
     # The goal: Heb dus een de columns met [radio_1-score, radio2 score, radio3 score], wil maken [radio1score, radio1 score, radio1score]
     # Weet niet of het zo klopt, maar lastig te controleren als je de output niet kent.
+
+    # HOI
     col_names_per_radio_mes = []
     for g in range(n_g_r):
 
