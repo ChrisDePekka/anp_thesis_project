@@ -48,29 +48,31 @@ def create_prompt_newsarticle(dataset, llm_model):
     #print(prompts_same_length[:5], prompt_news_combi[:1], radio_mes_ext[:1])
 
 
-def create_eval_prompts(dataframe, evaluate_aspect, lai_var):
-    if lai_var == True:
-        lai_eval_prompt = generate_lai_eval_prompts()
-        lai_prompt_comb = []
-    else:
-        lai_like_prompt = generate_clavie_evaluation(evaluate_aspect)
-        cl_eval_comb = []
-    
+def create_eval_prompts(dataframe, ls_eval_aspects, lai_var):
+    for eval_aspect in ls_eval_aspects:
 
-    for index, row in dataframe.iterrows():
         if lai_var == True:
-            conn_laiprompt_gen_radio = connecting_prompt_with_gen_mess(lai_eval_prompt, row[1] , row[-1])
-            lai_prompt_comb.append(conn_laiprompt_gen_radio)
+            lai_eval_prompt = generate_lai_eval_prompts()
+            lai_prompt_comb = []
         else:
-            lai_variant = True
-            conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(lai_like_prompt, row[1], row[-1], lai_variant)
-            cl_eval_comb.append(conn_clavie_eval_gen_radio)
-    
-    if lai_var == True:
-        dataframe.loc[:, 'evaluation_prompts'] = lai_prompt_comb
-        print(dataframe['evaluation_prompts'])
-    else:
-        dataframe.loc[:, 'evaluation_prompts'] = cl_eval_comb
-        print(dataframe['evaluation_prompts'])
+            lai_like_prompt = generate_clavie_evaluation(eval_aspect)
+            cl_eval_comb = []
+        
+
+        for index, row in dataframe.iterrows():
+            if lai_var == True:
+                conn_laiprompt_gen_radio = connecting_prompt_with_gen_mess(lai_eval_prompt, row[1] , row[-1])
+                lai_prompt_comb.append(conn_laiprompt_gen_radio)
+            else:
+                lai_variant = True
+                conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(lai_like_prompt, row[1], row[-1], lai_variant)
+                cl_eval_comb.append(conn_clavie_eval_gen_radio)
+        
+        if lai_var == True:
+            dataframe.loc[:, f'{eval_aspect}_eval_prompt'] = lai_prompt_comb
+            #print(dataframe['evaluation_prompts'])
+        else:
+            dataframe.loc[:, f'{eval_aspect}_eval_prompt'] = cl_eval_comb
+            #print(dataframe['evaluation_prompts'])
     #dataframe['evaluation_prompts'] = lai_prompt_comb
     return dataframe

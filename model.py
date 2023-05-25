@@ -39,9 +39,12 @@ if __name__ == "__main__":
     #intermediate_gen_mess_result_df.to_csv('ninethresults.csv', index=False)
 
     lai = False
-    eval_aspect = "vloeiendheid"
+
+    # eval_aspect variable is not needed anymore
+
+    ls_eval_aspect = ["vloeiendheid", "relevantie", "feitelijkeheid", "spreektaal"]
         # evaluation prompts
-    df_with_evaluation_prompts = create_eval_prompts(df_with_generated_radio, eval_aspect, lai)
+    df_with_evaluation_prompts = create_eval_prompts(df_with_generated_radio, ls_eval_aspect, lai)
 
     #print_full(df_with_evaluation_prompts)
 
@@ -52,14 +55,14 @@ if __name__ == "__main__":
     # radio mess
     # col_names_scores contain the scores per radio message
 
-    df_with_evaluation_scores, col_names_scores = generate_radio_scores(df_with_evaluation_prompts, n_s, n_g_r, lm_model)
+    df_with_evaluation_scores, col_names_scores = generate_radio_scores(df_with_evaluation_prompts, n_s, n_g_r, lm_model, ls_eval_aspect)
     print_full(df_with_evaluation_scores)
     print(df_with_evaluation_scores.columns)
     # post processing dataframe
     # Step 1: create the mean of the scores per radio-mess, add this to a new column
     # Step 2: select the best generated radio mess by selecting the one with the highest mean.
     # Step 3: In the final two columns, place the found mean of the highest radio message, place the best-found generated radio-mess. 
-    final_df_incl_best_found_output = post_processing(df_with_evaluation_scores, n_g_r, col_names_scores)
+    final_df_incl_best_found_output = post_processing(df_with_evaluation_scores, n_g_r, col_names_scores, ls_eval_aspect)
 
     final_df_incl_best_found_output.to_csv('final_ten_results.csv', index=False)
 
