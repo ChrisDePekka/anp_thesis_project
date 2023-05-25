@@ -11,19 +11,20 @@ def get_data(data_csv):
     csv_file = data_csv
     df = pd.read_csv(f'{path}/data/{csv_file}', delimiter=',')  # of sep= ','
 
-    selected_columns_df = df[["Radio_bodytext", "Nieuws_related_1_bodytext", "Nieuws_categorie"]]
+    selected_columns_df = df[[ "Nieuws_related_1_bodytext", "Radio_bodytext"]]
+    selected_columns_df = selected_columns_df.rename(columns={'Nieuws_related_1_bodytext': 'news_articles', "Radio_bodytext": "rm_g"})
 
-
-    # remove rows that do not have Nieuws_categorie BIN, BUI, ECO, SPO # to fix
 
     # Create a copy of the selected columns DataFrame
-    selected_columns_df_copy = selected_columns_df.copy()
+    df_to_use = selected_columns_df.copy()
 
     #   Apply preprocessing functions
-    selected_columns_df_copy['Nieuws_related_1_bodytext'] = selected_columns_df_copy['Nieuws_related_1_bodytext'].apply(preprocess_input)
-    selected_columns_df_copy['Radio_bodytext'] = selected_columns_df_copy['Radio_bodytext'].apply(preprocess_input)
-    
-    return selected_columns_df_copy
+    df_to_use["news_articles"] = df_to_use["news_articles"].apply(preprocess_input)
+    df_to_use["rm_g"] = df_to_use["rm_g"].apply(preprocess_input)
+    df_to_use['NA_index'] = df_to_use.index
+
+    df_return = df_to_use[['NA_index','news_articles', 'rm_g']]
+    return df_return
 
 
 

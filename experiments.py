@@ -17,33 +17,23 @@ def create_prompt_newsarticle(dataset, llm_model):
         mock = True
         llm_name = 'gpt4'
         clavie_system_prompt, clavie_prompt1, clavie_prompt2, clavie_prompt3 = generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos, llm_name)
-        clavie_system = pd.Series([clavie_system_prompt] * len(dataset))
+        clavie_systems = pd.Series([clavie_system_prompt] * len(dataset))
     
-    clavie_prompt1 = pd.Series([clavie_prompt1] * len(dataset))
-    clavie_prompt3  = pd.Series([clavie_prompt3] * len(dataset))
-    clavie_prompt2 = []
+    clavie_prompts1 = pd.Series([clavie_prompt1] * len(dataset))
+    clavie_prompts3  = pd.Series([clavie_prompt3] * len(dataset))
+    clavie_prompts2 = []
 
     for index, row in dataset.iterrows():
-        print(row[1]) # is the news_article
-        print(clavie_prompt2)
         conn_prompt2_news = connecting_prompts_with_news(clavie_prompt2, row[1])
-        clavie_prompt2.append(conn_prompt2_news)
-    #print(cl_prompt2)
+        clavie_prompts2.append(conn_prompt2_news)
 
-    #prompts_same_length, prompt_news_combi, radio_mes_ext = connecting_prompts_with_data(clavie_prompt2, dataset)
-
-    print(dataset.columns)
-    # dataset.loc[:, 'cl_systemprompt'] = cl_system better to use this
     if llm_name == 'gpt4': 
-        dataset.loc[:, f'{llm_name}_systemprompt'] = clavie_system
-    dataset.loc[:, f'{llm_name}_prompt1'] = clavie_prompt1
-    dataset.loc[:, f'{llm_name}_prompt2'] = clavie_prompt2
-    dataset.loc[:, f'{llm_name}_prompt3'] = clavie_prompt3
-
+        dataset.loc[:, f'{llm_name}_system_prompt_0'] = clavie_systems
+    dataset.loc[:, f'{llm_name}_prompt_1'] = clavie_prompts1
+    dataset.loc[:, f'{llm_name}_prompt_2'] = clavie_prompts2
+    dataset.loc[:, f'{llm_name}_prompt_3'] = clavie_prompts3
 
     return dataset
-    #print(prompts_same_length[:5], prompt_news_combi[:1], radio_mes_ext[:1])
-
 
 def create_eval_prompts(dataframe, ls_eval_aspects, lai_var):
     for eval_aspect in ls_eval_aspects:

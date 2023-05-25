@@ -2,38 +2,35 @@ import re
 from LLM_generator import LLM_rm_generator, LLM_rms_evaluator, gpt_generator, gpt_evaluator, claude_generator, claude_evaluator
 from data_processing import print_full
 def generate_radio_messages(dataframe, n_g_r, llm_model):
+
+    
+
     ls_all_news_gen_mess = []
     print(dataframe.columns)
     print(len(dataframe))
     for index, row in dataframe.iterrows():
-       
-        ls_generated_mess_1_news = generate_messages_per_newsitem(row[3:7], n_g_r) # consists of a list including the 9 generated messages
-        ls_all_news_gen_mess.append(ls_generated_mess_1_news)
+       i = 0
+       while i < n_g_r:
+            gen_rm = generate_message_per_newsitem(row[3:7], llm_model) # consists of a list including the 9 generated messages
+            ls_all_news_gen_mess.append(gen_rm)
 
         #print(ls_all_news_gen_mess)
 
+        #col_name_per_radio_mes = f"{eval_aspect}_eval_scores_gen_radio_mess_" + str(g+1)
+        #col_names_per_radio_mes.append(col_name_per_radio_mes )
 
     dataframe.loc[:, 'generated_mess'] = ls_all_news_gen_mess
     print(dataframe['generated_mess'])
     return dataframe
 
-def generate_messages_per_newsitem(input_text, n_g_r):
-    # systemprompt is input_text[0]
-    # prompt1 is input_text[1]
-    # prompt2 is input_text[2]
-    # prompt3 is input_text[3]
-    j = 0
-    ls_generated_mess = []
-    while j < n_g_r:
-        # output 3 should be the final shortened radio message
-        #output3 = LLM_rm_generator(input_text[0], input_text[1], input_text[2], input_text[3])
-        
-        #output3 = gpt_generator(input_text[0], input_text[1], input_text[2], input_text[3])
+def generate_message_per_newsitem(input_text, llm_model):
+    if llm_model == 'cl':
         output3 = claude_generator(input_text[0], input_text[1], input_text[2], input_text[3])
+    else:
+        #output3 = LLM_rm_generator(input_text[0], input_text[1], input_text[2], input_text[3])
+        output3 = gpt_generator(input_text[0], input_text[1], input_text[2], input_text[3])
 
-        ls_generated_mess.append(output3) 
-        j += 1
-    return ls_generated_mess # must be returned the final_generated_message
+    return output3 # must be returned the final_generated_message
 
 
 def generate_radio_scores(dataframe, n_s, n_g_r, llm_model, ls_eval_aspects):
