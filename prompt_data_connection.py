@@ -38,17 +38,20 @@ def connecting_prompt_with_gen_mess(lai_prompt, news_art, gen_mess):
 
 
 def connecting_clavie_prompt_with_gen_mess(input_clavie_eval_2, input_news, input_radios, lai_variant):
+    lai_var_fin_combi = ''
     if lai_variant == True:
-        
+        print("input_radios", input_radios)
         lai_var_combi = input_clavie_eval_2+ f"Nieuwsbericht: {input_news}"
         #print(lai_combi)
         counter = 0
         ls_alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', "J", 'K']
         for i in input_radios:
-            counter += 1
+            #counter += 1
 
             lai_var_fin_combi = lai_var_combi + f"Output {ls_alphabet[counter]}: {i} "
             lai_var_combi = lai_var_fin_combi
+            counter += 1
+            #print("lai var", lai_var_combi)
         return lai_var_fin_combi
 
     else:

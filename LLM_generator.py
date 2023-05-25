@@ -144,11 +144,11 @@ def gpt_evaluator(input):
 
 
 
-def claude_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3, temperature=.2):
+def claude_generator(input_prompt1, input_prompt2, input_prompt3, temperature=.2):
      # in gpt, everything must be put into 1 string.
     #import openai
     my_api = api_key_1
-    user_prompt1 = "\n\nHuman: " + system_prompt + " " + input_prompt1 + "\n\nAssistant:"
+    user_prompt1 = "\n\nHuman: " + input_prompt1 + "\n\nAssistant:"
     user_prompt2 = "\n\nHuman: " + input_prompt2 + "\n\nAssistant:"
     user_prompt3 = "\n\nHuman: " + input_prompt3 + "\n\nAssistant:"
     #final_user_prompt = user_prompt1 + user_prompt2 + user_prompt3
@@ -201,9 +201,9 @@ def claude_evaluator(input):
         model="claude-v1",
         max_tokens_to_sample = max_tokens_to_sample
     )
-    print(type(resp1))
-    print()
-    print(resp1['completion'].strip())
+    #print(type(resp1))
+    #print()
+    #print(resp1['completion'].strip())
     completed_resp1 = resp1['completion'].strip()
     
     return completed_resp1

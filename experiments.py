@@ -36,6 +36,8 @@ def create_prompt_newsarticle(dataset, llm_model):
     return dataset
 
 def create_eval_prompts(dataframe, ls_eval_aspects, lai_var):
+    # 
+    counter = 0
     for eval_aspect in ls_eval_aspects:
 
         if lai_var == True:
@@ -52,14 +54,22 @@ def create_eval_prompts(dataframe, ls_eval_aspects, lai_var):
                 lai_prompt_comb.append(conn_laiprompt_gen_radio)
             else:
                 lai_variant = True
-                conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(lai_like_prompt, row[1], row[-1], lai_variant)
+                #print("willing to see whats happening", row[6])
+                #print(row)
+                # row[1] is news article
+                # row[6] is radiomessage 1
+                #print("whats this", row[1])
+                #print("need to know the input", row[6:])
+                conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(lai_like_prompt, row[1], row[6 + counter:], lai_variant)
                 cl_eval_comb.append(conn_clavie_eval_gen_radio)
         
         if lai_var == True:
-            dataframe.loc[:, f'{eval_aspect}_eval_prompt'] = lai_prompt_comb
+            dataframe.loc[:, f'{eval_aspect}_e_prompt'] = lai_prompt_comb
             #print(dataframe['evaluation_prompts'])
         else:
-            dataframe.loc[:, f'{eval_aspect}_eval_prompt'] = cl_eval_comb
+            dataframe.loc[:, f'{eval_aspect}_e_prompt'] = cl_eval_comb
+        
+        counter += 2
             #print(dataframe['evaluation_prompts'])
     #dataframe['evaluation_prompts'] = lai_prompt_comb
     return dataframe
