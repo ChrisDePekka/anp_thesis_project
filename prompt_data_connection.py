@@ -48,7 +48,8 @@ def connecting_clavie_prompt_with_gen_mess(input_clavie_eval_2, input_news, inpu
             counter += 1
 
             lai_var_fin_combi = lai_var_combi + f"Output {ls_alphabet[counter]}: {i} "
-            return lai_var_fin_combi
+            lai_var_combi = lai_var_fin_combi
+        return lai_var_fin_combi
 
     else:
         pattern = r"Nieuwsbericht: (.*)"

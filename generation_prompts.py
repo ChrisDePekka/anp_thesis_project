@@ -1,6 +1,6 @@
 import re
 
-def generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos):
+def generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos, lm_name):
     # the base prompt now isnt really fixed unfortunately, since the baseprompt would be:
     # base_prompt = "Schrijf een radiobericht van het volgende nieuwsbericht: "
 
@@ -68,8 +68,10 @@ def generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, nam
 
     prompt3 = "Dankjewel! Kan je het iets korter schrijven?"
     
-    starting_question_prompt = "Fijn! Dan beginnen wij :)  . Voor het volgende nieuwsbericht: "
-    return system_prompt_final, prompt1, prompt2, prompt3
+    if lm_name == 'cl':
+        return prompt1, prompt2, prompt3
+    else:
+        return system_prompt_final, prompt1, prompt2, prompt3
 
 
 def generate_lai_eval_prompts():

@@ -9,39 +9,36 @@ from constants import zero_cot, instructions, reit, right, info, name, pos
 
 def create_prompt_newsarticle(dataset, llm_model):
 
-    # for now:
-    # At the moment I ignored system and user since don't know whether that will be available
-    print("type: ", type(dataset))
     if llm_model == 'Claude':
         mock = False
-        clavie_system_prompt, clavie_prompt1, clavie_prompt2, clavie_prompt3 = generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos)
+        llm_name = 'cl'
+        clavie_prompt1, clavie_prompt2, clavie_prompt3 = generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos, llm_name)
     else:
         mock = True
-        clavie_system_prompt, clavie_prompt1, clavie_prompt2, clavie_prompt3 = generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos)
+        llm_name = 'gpt4'
+        clavie_system_prompt, clavie_prompt1, clavie_prompt2, clavie_prompt3 = generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos, llm_name)
+        clavie_system = pd.Series([clavie_system_prompt] * len(dataset))
     
-    # print(clavie_prompt1)
-    # print(clavie_prompt2)
-    # print(clavie_prompt3)
-
-    cl_system = pd.Series([clavie_system_prompt] * len(dataset))
-    cl_prompt1 = pd.Series([clavie_prompt1] * len(dataset))
-    cl_prompt3  = pd.Series([clavie_prompt3] * len(dataset))
-    cl_prompt2 = []
+    clavie_prompt1 = pd.Series([clavie_prompt1] * len(dataset))
+    clavie_prompt3  = pd.Series([clavie_prompt3] * len(dataset))
+    clavie_prompt2 = []
 
     for index, row in dataset.iterrows():
-        #print(row[1]) # is the news_article
+        print(row[1]) # is the news_article
+        print(clavie_prompt2)
         conn_prompt2_news = connecting_prompts_with_news(clavie_prompt2, row[1])
-        cl_prompt2.append(conn_prompt2_news)
+        clavie_prompt2.append(conn_prompt2_news)
     #print(cl_prompt2)
 
     #prompts_same_length, prompt_news_combi, radio_mes_ext = connecting_prompts_with_data(clavie_prompt2, dataset)
 
     print(dataset.columns)
-    # dataset.loc[:, 'cl_systemprompt'] = cl_system better to use this 
-    dataset.loc[:, 'cl_systemprompt'] = cl_system
-    dataset.loc[:, 'cl_prompt1'] = cl_prompt1
-    dataset.loc[:, 'cl_prompt2'] = cl_prompt2
-    dataset.loc[:, 'cl_prompt3'] = cl_prompt3
+    # dataset.loc[:, 'cl_systemprompt'] = cl_system better to use this
+    if llm_name == 'gpt4': 
+        dataset.loc[:, f'{llm_name}_systemprompt'] = clavie_system
+    dataset.loc[:, f'{llm_name}_prompt1'] = clavie_prompt1
+    dataset.loc[:, f'{llm_name}_prompt2'] = clavie_prompt2
+    dataset.loc[:, f'{llm_name}_prompt3'] = clavie_prompt3
 
 
     return dataset
