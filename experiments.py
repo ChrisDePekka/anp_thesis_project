@@ -42,7 +42,7 @@ def create_eval_prompts(df_1, ls_eval_aspects, n_g_r, llm):
     else:
         # one extra due to system prompt
         df_temp = df_1.drop(df_1.columns[2:7], axis=1)
-
+    print(df_temp.columns)
     df_3_int = df_temp.drop(df_temp.columns[2:(2+n_g_r+1)], axis=1) # plus one since also the golden rm is used.
 
     counter = 0
@@ -52,10 +52,10 @@ def create_eval_prompts(df_1, ls_eval_aspects, n_g_r, llm):
         cl_eval_comb = []
         for index, row in df_temp.iterrows():
             lai_variant = True
-            conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(lai_like_prompt, row[1], row[2 + counter:], lai_variant)
+            conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(lai_like_prompt, row[1], row[2:], lai_variant)
             cl_eval_comb.append(conn_clavie_eval_gen_radio)
         
         df_3_int.loc[:, f'{eval_aspect}_e_prompt'] = cl_eval_comb
         
-        counter += (n_g_r+1) # plus one since also the golden rm is used
+        #counter += (n_g_r+1) # plus one since also the golden rm is used
     return df_3_int

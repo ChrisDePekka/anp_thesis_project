@@ -41,7 +41,7 @@ def generate_message_per_newsitem(input_text, llm_model):
     return output3 # must be returned the final_generated_message
 
 
-def generate_radio_scores(df_3_int, df_2_int, n_s, n_g_r, llm_model, ls_eval_aspects):
+def generate_radio_scores(df_2, df_2_int, n_s, n_g_r, llm_model, ls_eval_aspects):
     if llm_model == "Claude":
         lm_model = 'cl'
     else:
@@ -56,9 +56,9 @@ def generate_radio_scores(df_3_int, df_2_int, n_s, n_g_r, llm_model, ls_eval_asp
 
         col_name = [f'{eval_aspect}_R_s'] 
                 
-        df_3_int.loc[:, col_name] = None
+        df_2.loc[:, col_name] = None
 
-        for index, row in df_3_int.iterrows():
+        for index, row in df_2.iterrows():
             #print("what is the input", row[f'{eval_aspect}_e_prompt'])
             ls_n_s = [generate_scores(row[f"{eval_aspect}_e_prompt"], n_g_r, llm_model) for _ in range(n_s)] 
             # this does n_s runs
@@ -83,7 +83,6 @@ def generate_radio_scores(df_3_int, df_2_int, n_s, n_g_r, llm_model, ls_eval_asp
             #df_3_int.at[index, col_name] = ls_n_s # it unfortunately does not let me insert a list of lists into one cell.
 
     df_2 = df_2_int.copy()
-    df_2.to_csv('df2_result2.csv', index=False)
     return df_2
     #n_s = 1
     # create n_s new columns that each contain a list of the scores (the scores are the scores of all the n_g_r together)
@@ -163,15 +162,15 @@ def generate_scores(eval_prompt, n_g_r, llm_model):
 
         ## zet generator weer aan
 
-        # if llm_model == 'Claude':
-        #     output_LLM = claude_evaluator(eval_prompt)
-        # else:
-        #     output_LLM = gpt_evaluator(eval_prompt)
+        if llm_model == 'Claude':
+            output_LLM = claude_evaluator(eval_prompt)
+        else:
+            output_LLM = gpt_evaluator(eval_prompt)
         
-        # print(output_LLM)
-        # ls_scores_one_eval_run = re.findall(r"Score.*?(\d+)", output_LLM)
+        print(output_LLM)
+        ls_scores_one_eval_run = re.findall(r"Score.*?(\d+)", output_LLM)
 
-        ls_scores_one_eval_run = ['70', '80', '85']
+        #ls_scores_one_eval_run = ['70', '80', '85']
         ## zet generator weer aan
 
         

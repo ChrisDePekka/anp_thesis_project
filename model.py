@@ -13,75 +13,50 @@ from constants import n_s, n_g_r, csv_file
 
 if __name__ == "__main__":
     lm_model = "Claude"
-
+    path = "C:/Users/20183274/Documents/Scriptie/"
+    ls_eval_aspect = ["feit", "vloe", "rele", "spre"]
     #THIS WORKS, FOR NOW I COMMENT IT OUT AND GO ON WITH THE CSV FILE
     #Import small dataset to test the prompts on
-    # dataset_to_generate = get_data(csv_file)
+    dataset_to_generate = get_data(csv_file)
 
     # # Use only the first row to show that it works
-    # sample_row_df = dataset_to_generate.iloc[0:2]
+    sample_row_df = dataset_to_generate.iloc[0:2]
     
     # # dataframe including the prompt_newsarticle combination
-    # df_with_prompts_incl_prompt_news = create_prompt_newsarticle(sample_row_df, lm_model)
+    df_with_prompts_incl_prompt_news = create_prompt_newsarticle(sample_row_df, lm_model)
 
-    # df_with_generated_radio = generate_radio_messages(df_with_prompts_incl_prompt_news, n_g_r, lm_model)
+    df_with_generated_radio = generate_radio_messages(df_with_prompts_incl_prompt_news, n_g_r, lm_model)
 
-    # intermediate_gen_mess_result_df = df_with_generated_radio
-    # intermediate_gen_mess_result_df.to_csv('final2_result_generation.csv', index=False)
+    df_1 = df_with_generated_radio.copy()
+    df_1.to_csv('fa_result_generation.csv', index=False)
 
     #UNTIL HEREEEE
 
     # THIS WORKS FOR NOW I COMMENT IT OUT AND GO ON WITH THE CSV FILE
 
-
-    # path = "C:/Users/20183274/Documents/Scriptie/"
-    # df_1 = pd.read_csv(f'{path}/anp_thesis_project/final2_result_generation.csv', delimiter=',')
+    df_1_cont = pd.read_csv(f'{path}/anp_thesis_project/fa_result_generation.csv', delimiter=',')
 
     
-    ls_eval_aspect = ["feit", "vloe", "rele", "spre"]
-    # df_2_int = create_df(df_1, ls_eval_aspect, n_s, lm_model)
-
-    # df_3_int = create_eval_prompts(df_1, ls_eval_aspect, n_g_r, lm_model)
-    # #print_full(df_3)
-    # #print(df_3_int.columns)
     
-    # df_3 = generate_radio_scores(df_3_int, df_2_int, n_s, n_g_r, lm_model, ls_eval_aspect)
+    df_2_int = create_df(df_1_cont, ls_eval_aspect, n_s, lm_model)
 
+    df_2 = create_eval_prompts(df_1_cont, ls_eval_aspect, n_g_r, lm_model)
+
+    df_2.to_csv('fa_df2_result.csv', index=False)
+    df_2_cont = pd.read_csv(f'{path}/anp_thesis_project/fa_df2_result.csv', delimiter=',')
+    df_3 = generate_radio_scores(df_2_cont, df_2_int, n_s, n_g_r, lm_model, ls_eval_aspect)
+
+    df_3.to_csv('fa_df3_result.csv', index=False)
     #UNTIL HEREEEE
 
-    path = "C:/Users/20183274/Documents/Scriptie/"
-    df_2_cont = pd.read_csv(f'{path}/anp_thesis_project/df2_result.csv', delimiter=',')
 
-    df_4 = post_processing_1(df_2_cont, ls_eval_aspect, lm_model)
+    df_3_cont = pd.read_csv(f'{path}/anp_thesis_project/fa_df3_result.csv', delimiter=',')
 
-    a = 1
-    if a == 1:
-        print('stop')
-    else:
+    df_4 = post_processing_1(df_3_cont, ls_eval_aspect, lm_model)
 
-        #print_full(df_with_evaluation_prompts)
 
-        # generate the scores belonging to each generated radio-message.
-        # This includes the following two types of columns
-        # Type 1: consists of n_s runs and each column is a run, thus consisting of scores for the n_g_r messages
-        # Type 2: consists of n_g_r columns and each column is a generated radio mess, thus consisting of n_s scores of the individual 
-        # radio mess
-        # col_names_scores contain the scores per radio message
-
-        a = 1
-        if a == 1:
-            print('stop')
-        else:
-            # post processing dataframe
-            # Step 1: create the mean of the scores per radio-mess, add this to a new column
-            # Step 2: select the best generated radio mess by selecting the one with the highest mean.
-            # Step 3: In the final two columns, place the found mean of the highest radio message, place the best-found generated radio-mess. 
-            final_df_incl_best_found_output = post_processing(df_with_evaluation_scores, n_g_r, col_names_scores, ls_eval_aspect)
-
-            final_df_incl_best_found_output.to_csv('final_ten_results.csv', index=False)
-
-            #print_full(final_df_incl_best_found_output)
-
+    df_4_c = df_4.copy()
+    df_4_c.to_csv('fa_df4_result.csv', index=False)
 
 
 
