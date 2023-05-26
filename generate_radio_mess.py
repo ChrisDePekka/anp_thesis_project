@@ -74,7 +74,7 @@ def generate_radio_scores(df_3_int, df_2_int, n_s, n_g_r, llm_model, ls_eval_asp
 
                 row_index = df_2_int.index[(df_2_int["NA_index"] == row["NA_index"]) & (df_2_int["cl_rm_i"] == f'{lm_model}_rm_{i+j}')].tolist()
                 df_2_int.at[row_index[0], f'{lm_model}_{eval_aspect}_ls'] = ls_scores_rm
-
+                print(type(ls_scores_rm))
                 if i == 'g':
                     i = n_g_r + 2
                 else:
@@ -83,7 +83,7 @@ def generate_radio_scores(df_3_int, df_2_int, n_s, n_g_r, llm_model, ls_eval_asp
             #df_3_int.at[index, col_name] = ls_n_s # it unfortunately does not let me insert a list of lists into one cell.
 
     df_2 = df_2_int.copy()
-    df_2.to_csv('df2_result.csv', index=False)
+    df_2.to_csv('df2_result2.csv', index=False)
     return df_2
     #n_s = 1
     # create n_s new columns that each contain a list of the scores (the scores are the scores of all the n_g_r together)

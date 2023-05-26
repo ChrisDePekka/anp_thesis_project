@@ -1,8 +1,41 @@
 import numpy as np
 import pandas as pd
 from data_processing import print_full
+from ast import literal_eval
+
+
+def post_processing_1(df_2_cont, eval_aspects, llm):
+
+    if llm == 'Claude':
+        lm = 'cl'
+    else:
+        lm = 'gpt'
+
+    df_4_int = df_2_cont[["NA_index", f"{lm}_rm_i"]]
+    col_names = []
+    for aspect in eval_aspects:
+        df_2_cont[f'{lm}_{aspect}_ls'] = df_2_cont[f'{lm}_{aspect}_ls'].apply(literal_eval)
+        df_4_int[f'{lm}_{aspect}_M'] = df_2_cont[f'{lm}_{aspect}_ls'].apply(lambda x: sum(x) / len(x)) 
+        col_name = f'{lm}_{aspect}_M'
+        col_names.append(col_name)
+
+    df_4_int["EVAL_M"] = df_4_int.loc[:, col_names].mean(axis=1)
+    print(df_4_int)
+
+
+    # groupby NA_index and select the highest EVAL_M
+    # group = df_4_int.groupby(['NA_index'], as_index=False)
+    # print(group.max())
+    df_4_int["ranking"] = df_4_int.groupby("NA_index")["EVAL_M"].rank(ascending=0,method='dense')
+    print(df_4_int)
+
+
+
+
 
 def post_processing(df, n_g_r, col_names_scores, ls_eval_aspects):
+
+
     #mean_func = lambda x: np.mean(x)
 
     for eval_aspect in ls_eval_aspects:

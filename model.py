@@ -1,7 +1,7 @@
 from data_processing import get_data, print_full
 from experiments import create_prompt_newsarticle, create_eval_prompts
 from generate_radio_mess import generate_radio_messages, generate_radio_scores
-from post_processing import post_processing
+from post_processing import post_processing, post_processing_1
 from building_int_dfs import create_df
 #from prompt_data_connection import create_prompt_newsarticle
 import pandas as pd
@@ -31,20 +31,28 @@ if __name__ == "__main__":
 
     #UNTIL HEREEEE
 
+    # THIS WORKS FOR NOW I COMMENT IT OUT AND GO ON WITH THE CSV FILE
 
-    path = "C:/Users/20183274/Documents/Scriptie/"
-    df_1 = pd.read_csv(f'{path}/anp_thesis_project/final2_result_generation.csv', delimiter=',')
+
+    # path = "C:/Users/20183274/Documents/Scriptie/"
+    # df_1 = pd.read_csv(f'{path}/anp_thesis_project/final2_result_generation.csv', delimiter=',')
 
     
     ls_eval_aspect = ["feit", "vloe", "rele", "spre"]
-    df_2_int = create_df(df_1, ls_eval_aspect, n_s, lm_model)
+    # df_2_int = create_df(df_1, ls_eval_aspect, n_s, lm_model)
 
-    df_3_int = create_eval_prompts(df_1, ls_eval_aspect, n_g_r, lm_model)
-    #print_full(df_3)
-    #print(df_3_int.columns)
+    # df_3_int = create_eval_prompts(df_1, ls_eval_aspect, n_g_r, lm_model)
+    # #print_full(df_3)
+    # #print(df_3_int.columns)
     
-    df_3 = generate_radio_scores(df_3_int, df_2_int, n_s, n_g_r, lm_model, ls_eval_aspect)
+    # df_3 = generate_radio_scores(df_3_int, df_2_int, n_s, n_g_r, lm_model, ls_eval_aspect)
 
+    #UNTIL HEREEEE
+
+    path = "C:/Users/20183274/Documents/Scriptie/"
+    df_2_cont = pd.read_csv(f'{path}/anp_thesis_project/df2_result.csv', delimiter=',')
+
+    df_4 = post_processing_1(df_2_cont, ls_eval_aspect, lm_model)
 
     a = 1
     if a == 1:
@@ -60,11 +68,6 @@ if __name__ == "__main__":
         # radio mess
         # col_names_scores contain the scores per radio message
 
-        df_with_evaluation_scores = generate_radio_scores(df_2, n_s, n_g_r, lm_model, ls_eval_aspect)
-        print_full(df_with_evaluation_scores)
-        print(df_with_evaluation_scores.columns)
-        intermediate_result_eval = df_with_evaluation_scores
-        intermediate_result_eval.to_csv('int_eval_scores_df.csv', index=False)
         a = 1
         if a == 1:
             print('stop')
