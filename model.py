@@ -35,14 +35,15 @@ if __name__ == "__main__":
     path = "C:/Users/20183274/Documents/Scriptie/"
     df_1 = pd.read_csv(f'{path}/anp_thesis_project/final2_result_generation.csv', delimiter=',')
 
-    df_2 = create_df(df_1, lm_model)
+    
     ls_eval_aspect = ["feit", "vloe", "rele", "spre"]
-    
-    df_3 = create_eval_prompts(df_1, ls_eval_aspect, n_g_r, lm_model)
+    df_2_int = create_df(df_1, ls_eval_aspect, n_s, lm_model)
+
+    df_3_int = create_eval_prompts(df_1, ls_eval_aspect, n_g_r, lm_model)
     #print_full(df_3)
-    print(df_3.columns)
+    #print(df_3_int.columns)
     
-    
+    df_3 = generate_radio_scores(df_3_int, df_2_int, n_s, n_g_r, lm_model, ls_eval_aspect)
 
 
     a = 1

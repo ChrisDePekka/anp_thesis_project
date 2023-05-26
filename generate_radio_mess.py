@@ -41,7 +41,50 @@ def generate_message_per_newsitem(input_text, llm_model):
     return output3 # must be returned the final_generated_message
 
 
-def generate_radio_scores(dataframe, n_s, n_g_r, llm_model, ls_eval_aspects):
+def generate_radio_scores(df_3_int, df_2_int, n_s, n_g_r, llm_model, ls_eval_aspects):
+    if llm_model == "Claude":
+        lm_model = 'cl'
+    else:
+        lm_model = "gpt4"
+
+    for eval_aspect in ls_eval_aspects:
+        col_name = [f'{lm_model}_{eval_aspect}_ls']
+        df_2_int.loc[:, col_name] = None
+
+
+    for eval_aspect in ls_eval_aspects:
+
+        col_name = [f'{eval_aspect}_R_s'] 
+                
+        df_3_int.loc[:, col_name] = None
+
+        for index, row in df_3_int.iterrows():
+            #print("what is the input", row[f'{eval_aspect}_e_prompt'])
+            ls_n_s = [generate_scores(row[f"{eval_aspect}_e_prompt"], n_g_r, llm_model) for _ in range(n_s)] 
+            # this does n_s runs
+            # a list containing lists. The inner lists are the scores of every radiomessage.
+            # So the function generate_scores returns a list containing n_g_r int (scores)
+            i = 0
+            j = 1
+            while i <= (n_g_r+1): # i # 2 <= 4 # 3 <= 4  5 <= 4 # j 0 j 1 
+                ls_scores_rm = [run[i] for run in ls_n_s] # 70 80 85
+                if i == n_g_r:
+                    i = 'g'
+                    j = '' # j is needed since you cannot add 1 to g, 1 needed to be added since radio-message starts from 1.
+
+                row_index = df_2_int.index[(df_2_int["NA_index"] == row["NA_index"]) & (df_2_int["cl_rm_i"] == f'{lm_model}_rm_{i+j}')].tolist()
+                df_2_int.at[row_index[0], f'{lm_model}_{eval_aspect}_ls'] = ls_scores_rm
+
+                if i == 'g':
+                    i = n_g_r + 2
+                else:
+                    i += 1
+                   
+            #df_3_int.at[index, col_name] = ls_n_s # it unfortunately does not let me insert a list of lists into one cell.
+
+    df_2 = df_2_int.copy()
+    df_2.to_csv('df2_result.csv', index=False)
+    return df_2
     #n_s = 1
     # create n_s new columns that each contain a list of the scores (the scores are the scores of all the n_g_r together)
     for eval_aspect in ls_eval_aspects:
@@ -69,12 +112,7 @@ def generate_radio_scores(dataframe, n_s, n_g_r, llm_model, ls_eval_aspects):
                 # data types
                 #dataframe.loc[index, col_name] = ls_n_s[i]
 
-        print(dataframe)
-        print(dataframe.columns)
 
-        print("WANT TO CHECK IF IT IS HERE")
-    print(dataframe)
-    print(dataframe.columns)
         # I am unsure whether this is the correct way. 
         # The goal: Heb dus een de columns met [radio_1-score, radio2 score, radio3 score], wil maken [radio1score, radio1 score, radio1score]
         # Weet niet of het zo klopt, maar lastig te controleren als je de output niet kent.
@@ -114,27 +152,34 @@ def generate_radio_scores(dataframe, n_s, n_g_r, llm_model, ls_eval_aspects):
     #print_full(dataframe[-2:][:])
     return dataframe #, col_names_per_radio_mes
 
-def generate_scores(eval_prompt, n_s, llm_model):
+def generate_scores(eval_prompt, n_g_r, llm_model):
     int_list = []
-    print("this is the eval prompt", eval_prompt)
-    print("last try", eval_prompt)
+
     # bij relevantie prompt gaat mis
-    while len(int_list) != n_s:  # rerun the evaluation prompt until you do get the wanted output.
+    while len(int_list) != (n_g_r+1):  # rerun the evaluation prompt until you do get the wanted output.
         int_list = []
         ls_scores_one_eval_run = []
         #output_LLM = LLM_rms_evaluator(eval_prompt)
-        if llm_model == 'Claude':
-            output_LLM = claude_evaluator(eval_prompt)
-        else:
-            output_LLM = gpt_evaluator(eval_prompt)
 
+        ## zet generator weer aan
+
+        # if llm_model == 'Claude':
+        #     output_LLM = claude_evaluator(eval_prompt)
+        # else:
+        #     output_LLM = gpt_evaluator(eval_prompt)
+        
+        # print(output_LLM)
+        # ls_scores_one_eval_run = re.findall(r"Score.*?(\d+)", output_LLM)
+
+        ls_scores_one_eval_run = ['70', '80', '85']
+        ## zet generator weer aan
+
+        
         #output_LLM contains the entire output prompt in which the scores are given to the radio messages
         #ls_scores_one_eval_run = re.findall(r"Score: (\d+)\nUitleg:\n(.+)", output_LLM)
-        print(output_LLM)
-        ls_scores_one_eval_run = re.findall(r"Score.*?(\d+)", output_LLM)
+
         # numbers = re.findall(r"Score\D*(\d+)", output_LLM)
 
-        print("here", ls_scores_one_eval_run)
         # turn into integers
         for num in ls_scores_one_eval_run:
             int_list.append(int(num))

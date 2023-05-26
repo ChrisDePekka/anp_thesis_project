@@ -193,6 +193,7 @@ def remove_text_before_enter(text):
 def claude_evaluator(input):
      # in gpt, everything must be put into 1 string.
     #import openai
+    #print("this is the input", input)
     my_api = api_key_1
     user_prompt1 = "\n\nHuman: " + input + "\n\nAssistant:"
     max_tokens_to_sample = 100

@@ -137,7 +137,6 @@ def generate_clavie_evaluation(aspect_to_evaluate):
     
     # For now, I just treat is as a lai prompt since otherwise it becomes too complex at the moment
     lai_like_prompt = user_prompt
-    print(lai_like_prompt)
     return lai_like_prompt
     #return system_prompt, user_prompt_1, user_prompt_2
 

@@ -35,34 +35,27 @@ def create_prompt_newsarticle(dataset, llm_model):
 
     return dataset
 
-def create_eval_prompts(dataframe, ls_eval_aspects, n_g_r, llm):
- 
+def create_eval_prompts(df_1, ls_eval_aspects, n_g_r, llm):
+    
     if llm == "Claude":
-        df_temp = dataframe.drop(dataframe.columns[2:6], axis=1)
+        df_temp = df_1.drop(df_1.columns[2:6], axis=1)
     else:
         # one extra due to system prompt
-        df_temp = dataframe.drop(dataframe.columns[2:7], axis=1)
+        df_temp = df_1.drop(df_1.columns[2:7], axis=1)
 
-    df_3 = df_temp.drop(df_temp.columns[2:(2+n_g_r+1)], axis=1) # plus one since also the golden rm is used.
-    print(df_3)
+    df_3_int = df_temp.drop(df_temp.columns[2:(2+n_g_r+1)], axis=1) # plus one since also the golden rm is used.
+
     counter = 0
     for eval_aspect in ls_eval_aspects:
 
         lai_like_prompt = generate_clavie_evaluation(eval_aspect)
         cl_eval_comb = []
-        
         for index, row in df_temp.iterrows():
             lai_variant = True
-            #print("willing to see whats happening", row[6])
-            #print(row)
-            # row[1] is news article
-            # row[6] is radiomessage 1
-            #print("whats this", row[1])
-            #print("need to know the input", row[6:])
-            conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(lai_like_prompt, row[1], row[6 + counter:], lai_variant)
+            conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(lai_like_prompt, row[1], row[2 + counter:], lai_variant)
             cl_eval_comb.append(conn_clavie_eval_gen_radio)
         
-        df_3.loc[:, f'{eval_aspect}_e_prompt'] = cl_eval_comb
+        df_3_int.loc[:, f'{eval_aspect}_e_prompt'] = cl_eval_comb
         
         counter += (n_g_r+1) # plus one since also the golden rm is used
-    return df_3
+    return df_3_int
