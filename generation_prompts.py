@@ -74,23 +74,6 @@ def generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, nam
         return system_prompt_final, prompt1, prompt2, prompt3
 
 
-def generate_lai_eval_prompts():
-    # Voor nu doe ik simpelweg 1 prompt, maar hier kan je nog prima variaties in aanbrengen.
-
-    lai_prompt = "Voor de taak om van nieuwsberichten radio-berichten te creeëren, geef een score aan de mate waarin de content \
-        bewaard blijft met betrekking tot het nieuwsbericht op een schaal van 0 tot 100. 100 geef je als alle content \
-            van het nieuwsbericht bewaard blijft, en 0 geef je als het volledige incorrect is of een andere betekenis heeft. \
-                Geef ALLEEN scores. \
-                Het evaluatie format is zo: \
-                Output 1: \
-                Score 1: \
-                ———————"
-                #Uitleg A: \
-                #———————"
-    return lai_prompt
-
-
-
 def generate_clavie_evaluation(aspect_to_evaluate):
     if aspect_to_evaluate == "vloe":
         user_prompt = "Voor de taak om van nieuwsberichten radio-berichten te creeëren, geef een score aan de mate waarin de tekst vloeiend is \

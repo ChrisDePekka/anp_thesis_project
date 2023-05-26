@@ -27,7 +27,7 @@ def generate_radio_messages(dataframe, n_g_r, llm_model):
             
             # Still need to add the cl_rm_g as a column
             # dataframe.loc[index, f'{lm_model}_rm_{i}'] = gen_rm
-
+    dataframe.loc[:, 'cl_rm_g'] = dataframe['rm_g']
     return dataframe
 
 def generate_message_per_newsitem(input_text, llm_model):

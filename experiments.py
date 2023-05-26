@@ -1,4 +1,4 @@
-from generation_prompts import generate_prompts_clavie, generate_lai_eval_prompts, generate_clavie_evaluation
+from generation_prompts import generate_prompts_clavie, generate_clavie_evaluation
 from prompt_data_connection import connecting_prompts_with_news, connecting_prompt_with_gen_mess, connecting_clavie_prompt_with_gen_mess
 import pandas as pd
 from data_processing import print_full
@@ -35,41 +35,34 @@ def create_prompt_newsarticle(dataset, llm_model):
 
     return dataset
 
-def create_eval_prompts(dataframe, ls_eval_aspects, lai_var):
-    # 
+def create_eval_prompts(dataframe, ls_eval_aspects, n_g_r, llm):
+ 
+    if llm == "Claude":
+        df_temp = dataframe.drop(dataframe.columns[2:6], axis=1)
+    else:
+        # one extra due to system prompt
+        df_temp = dataframe.drop(dataframe.columns[2:7], axis=1)
+
+    df_3 = df_temp.drop(df_temp.columns[2:(2+n_g_r+1)], axis=1) # plus one since also the golden rm is used.
+    print(df_3)
     counter = 0
     for eval_aspect in ls_eval_aspects:
 
-        if lai_var == True:
-            lai_eval_prompt = generate_lai_eval_prompts()
-            lai_prompt_comb = []
-        else:
-            lai_like_prompt = generate_clavie_evaluation(eval_aspect)
-            cl_eval_comb = []
+        lai_like_prompt = generate_clavie_evaluation(eval_aspect)
+        cl_eval_comb = []
         
-
-        for index, row in dataframe.iterrows():
-            if lai_var == True:
-                conn_laiprompt_gen_radio = connecting_prompt_with_gen_mess(lai_eval_prompt, row[1] , row[-1])
-                lai_prompt_comb.append(conn_laiprompt_gen_radio)
-            else:
-                lai_variant = True
-                #print("willing to see whats happening", row[6])
-                #print(row)
-                # row[1] is news article
-                # row[6] is radiomessage 1
-                #print("whats this", row[1])
-                #print("need to know the input", row[6:])
-                conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(lai_like_prompt, row[1], row[6 + counter:], lai_variant)
-                cl_eval_comb.append(conn_clavie_eval_gen_radio)
+        for index, row in df_temp.iterrows():
+            lai_variant = True
+            #print("willing to see whats happening", row[6])
+            #print(row)
+            # row[1] is news article
+            # row[6] is radiomessage 1
+            #print("whats this", row[1])
+            #print("need to know the input", row[6:])
+            conn_clavie_eval_gen_radio = connecting_clavie_prompt_with_gen_mess(lai_like_prompt, row[1], row[6 + counter:], lai_variant)
+            cl_eval_comb.append(conn_clavie_eval_gen_radio)
         
-        if lai_var == True:
-            dataframe.loc[:, f'{eval_aspect}_e_prompt'] = lai_prompt_comb
-            #print(dataframe['evaluation_prompts'])
-        else:
-            dataframe.loc[:, f'{eval_aspect}_e_prompt'] = cl_eval_comb
+        df_3.loc[:, f'{eval_aspect}_e_prompt'] = cl_eval_comb
         
-        counter += 2
-            #print(dataframe['evaluation_prompts'])
-    #dataframe['evaluation_prompts'] = lai_prompt_comb
-    return dataframe
+        counter += (n_g_r+1) # plus one since also the golden rm is used
+    return df_3
