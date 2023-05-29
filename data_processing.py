@@ -10,10 +10,18 @@ def get_data(data_csv):
     path = "C:/Users/20183274/Documents/Scriptie/Thesis_Code_ANP"
     csv_file = data_csv
     df = pd.read_csv(f'{path}/data/{csv_file}', delimiter=',')  # of sep= ','
+    
+    df_0_temp = df[["Nieuws_related_1_bodytext", "Nieuws_related_1_title", "Nieuws_id"]]
+    df_0_temp = df_0_temp.rename(columns={'Nieuws_related_1_bodytext': 'news_articles', "Nieuws_related_1_title": "news_titles", "Nieuws_id": 'news_ids'})
+    df_0_temp2 = df_0_temp.copy()
+    df_0_temp2["news_articles"] = df_0_temp2["news_articles"].apply(preprocess_input)
+    df_0_temp2['NA_index'] = df_0_temp2.index
+    df_0 = df_0_temp2[['NA_index','news_articles', 'news_titles', 'news_ids']]
+
+
 
     selected_columns_df = df[[ "Nieuws_related_1_bodytext", "Radio_bodytext"]]
     selected_columns_df = selected_columns_df.rename(columns={'Nieuws_related_1_bodytext': 'news_articles', "Radio_bodytext": "rm_g"})
-
 
     # Create a copy of the selected columns DataFrame
     df_to_use = selected_columns_df.copy()
@@ -24,7 +32,7 @@ def get_data(data_csv):
     df_to_use['NA_index'] = df_to_use.index
 
     df_return = df_to_use[['NA_index','news_articles', 'rm_g']]
-    return df_return
+    return df_return, df_0
 
 
 
