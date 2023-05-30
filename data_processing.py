@@ -1,10 +1,6 @@
 import pandas as pd
 from pandas import read_csv
 
-
-
-
-
 def get_data(data_csv):
 
     path = "C:/Users/20183274/Documents/Scriptie/Thesis_Code_ANP"

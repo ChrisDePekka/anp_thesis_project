@@ -82,6 +82,7 @@ def generate_clavie_evaluation(aspect_to_evaluate):
                 Geef ALLEEN scores. \
                 Het evaluatie format is zo: \
                 Output A: \
+                Uitleg A: \
                 Score A: \
                 ———————"
                 #Uitleg A: \
@@ -93,6 +94,7 @@ def generate_clavie_evaluation(aspect_to_evaluate):
                 Geef ALLEEN scores. \
                 Het evaluatie format is zo: \
                 Output A: \
+                Uitleg A: \
                 Score A: \
                 ———————"
                 #Uitleg A: \
@@ -104,6 +106,7 @@ def generate_clavie_evaluation(aspect_to_evaluate):
                 Geef ALLEEN scores. \
                 Het evaluatie format is zo: \
                 Output A: \
+                Uitleg A: \
                 Score A: \
                 ———————"
                 #Uitleg A: \
@@ -117,6 +120,7 @@ def generate_clavie_evaluation(aspect_to_evaluate):
                 Geef ALLEEN scores. \
                 Het evaluatie format is zo: \
                 Output A: \
+                Uitleg A: \
                 Score A: \
                 ———————"
                 #Uitleg A: \

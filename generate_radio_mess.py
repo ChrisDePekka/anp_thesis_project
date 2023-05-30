@@ -1,15 +1,17 @@
 import re
 from LLM_generator import LLM_rm_generator, LLM_rms_evaluator, gpt_generator, gpt_evaluator, claude_generator, claude_evaluator
 from data_processing import print_full
-def generate_radio_messages(dataframe, n_g_r, llm_model):
-    if llm_model == 'Claude':
-        lm_model = 'cl'
+from constants import lm_model, n_g_r
+
+def generate_radio_messages(dataframe):
+    if lm_model == 'Claude':
+        llm_model = 'cl'
     else:
-        lm_model = 'gpt4'
+        llm_model = 'gpt4'
 
     ls_rms = []
     for n in range(n_g_r):
-        ls_rm = f"{lm_model}_rm_{n+1}" 
+        ls_rm = f"{llm_model}_rm_{n+1}" 
         ls_rms.append(ls_rm)
     
     for col_name in ls_rms:
@@ -21,9 +23,9 @@ def generate_radio_messages(dataframe, n_g_r, llm_model):
     for index, row in dataframe.iterrows():
        i = 0
        while i < n_g_r:
-            gen_rm = generate_message_per_newsitem(row[3:7], lm_model) # consists of a list including the 9 generated messages
+            gen_rm = generate_message_per_newsitem(row[3:7], llm_model) # consists of a list including the 9 generated messages
             i += 1
-            dataframe.loc[index, f'{lm_model}_rm_{i}'] = gen_rm
+            dataframe.loc[index, f'{llm_model}_rm_{i}'] = gen_rm
             
             # Still need to add the cl_rm_g as a column
             # dataframe.loc[index, f'{lm_model}_rm_{i}'] = gen_rm

@@ -1,7 +1,7 @@
+from constants import lm_model, n_s
 
-
-def create_df(dataframe, ls_eval_aspects, n_s, llm):
-    if llm == "Claude":
+def create_df(dataframe, ls_eval_aspects):
+    if lm_model == "Claude":
 
         selected_columns_df = dataframe.drop(dataframe.columns[2:6], axis=1)
         df_2_int = selected_columns_df.melt(id_vars = ["NA_index", "news_articles"], var_name = "cl_rm_i", value_name = "cl_rm_str")
@@ -10,7 +10,7 @@ def create_df(dataframe, ls_eval_aspects, n_s, llm):
         selected_columns_df = dataframe.drop(dataframe.columns[2:7], axis=1)
         df_2_int = selected_columns_df.melt(id_vars = ["NA_index", "news_articles"], var_name = "gpt4_rm_i", value_name = "gpt4_rm_str")
     
-    if llm == "Claude":
+    if lm_model == "Claude":
         lm = 'cl'
     else:
         lm = 'gpt4'

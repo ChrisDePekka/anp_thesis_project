@@ -4,12 +4,12 @@ import pandas as pd
 from data_processing import print_full
 
 # import variables
-from constants import zero_cot, instructions, reit, right, info, name, pos
+from constants import zero_cot, instructions, reit, right, info, name, pos, lm_model, n_g_r
 
 
-def create_prompt_newsarticle(dataset, llm_model):
+def create_prompt_newsarticle(dataset):
 
-    if llm_model == 'Claude':
+    if lm_model == 'Claude':
         mock = False
         llm_name = 'cl'
         clavie_prompt1, clavie_prompt2, clavie_prompt3 = generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos, llm_name)
@@ -35,9 +35,9 @@ def create_prompt_newsarticle(dataset, llm_model):
 
     return dataset
 
-def create_eval_prompts(df_1, ls_eval_aspects, n_g_r, llm):
+def create_eval_prompts(df_1, ls_eval_aspects):
     
-    if llm == "Claude":
+    if lm_model == "Claude":
         df_temp = df_1.drop(df_1.columns[2:6], axis=1)
     else:
         # one extra due to system prompt
