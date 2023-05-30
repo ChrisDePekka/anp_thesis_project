@@ -1,4 +1,5 @@
 import pandas as pd
+import re
 from pandas import read_csv
 
 def get_data(data_csv):
@@ -33,7 +34,8 @@ def get_data(data_csv):
 
 def preprocess_input(text):
     text = remove_text_before_dash(text)
-    return text
+    text2 = re.sub("</?p[^>]*>", "", text)
+    return text2
 
 
 def remove_text_before_dash(text):
