@@ -31,9 +31,6 @@ def get_data(data_csv):
     return df_return, df_0
 
 
-
-
-
 def preprocess_input(text):
     text = remove_text_before_dash(text)
     return text

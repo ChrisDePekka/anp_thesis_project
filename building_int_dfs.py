@@ -21,9 +21,6 @@ def create_df(dataframe, ls_eval_aspects):
     #     df_2_int.loc[:, col_name] = None
      
     
-
-    print(df_2_int)
-    print(df_2_int.columns)
     return df_2_int
     
     
