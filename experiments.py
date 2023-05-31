@@ -23,7 +23,7 @@ def create_prompt_newsarticle(dataset):
     clavie_prompts1 = pd.Series([clavie_prompt1] * len(dataset))
     clavie_prompts3  = pd.Series([clavie_prompt3] * len(dataset))
     clavie_prompts2 = []
-    print(clavie_prompts1)
+    #print(clavie_prompts1)
     for index, row in dataset.iterrows():
         conn_prompt2_news = connecting_prompts_with_news(clavie_prompt2, row[1])
         clavie_prompts2.append(conn_prompt2_news)
@@ -34,7 +34,7 @@ def create_prompt_newsarticle(dataset):
     dataset.loc[:, f'{lm_model}_prompt_2'] = clavie_prompts2
     dataset.loc[:, f'{lm_model}_prompt_3'] = clavie_prompts3
     # this can only be done if the index is the same. So when wanting to take other rows (not starting from 0 e.g.), then you first need to reset the index of the dataframe and only then you can do that.
-    print(dataset)
+    #print(dataset)
     return dataset
 
 def create_eval_prompts(df_1):

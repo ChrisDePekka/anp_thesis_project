@@ -2,7 +2,7 @@
 from data_processing import get_data
 from constants import examples, csv_file, n_of_examples
 import openai
-from config import api_key_1
+from config import api_key_1, api_key_gpt
 import asyncio
 import os
 import anthropic
@@ -93,22 +93,22 @@ def LLM_rms_evaluator(input_eval_prompt, temperature=.2):
 
 
 
-def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3, temperature=.2):
+def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3):
      # in gpt, everything must be put into 1 string.
     import openai
-    #openai.api_key = "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"
-    user_prompt1 = input_prompt1 + "1\n"
-    user_prompt2 = input_prompt2 + "2\n"
-    user_prompt3 = input_prompt3 + "\n"
-    final_user_prompt = user_prompt1 + user_prompt2 + user_prompt3
-    print(final_user_prompt)
+    openai.api_key = api_key_gpt
     
-    #return "test_radio_mess"
-    response = openai.ChatCompletion.create(
+    assistent_reaction1 = "Ja, ik begrijp het helemaal. Kom maar op met het nieuwsbericht. Ik zal het analyseren en er een goed radio bericht van maken. Ik maak een heel kort radiobericht van maximaal 4 zinnen."
+    #assistent_reaction2 = 
+    
+
+    response1 = openai.ChatCompletion.create(
                 model = "gpt-3.5-turbo", 
             messages=[
             {"role":"system", "content":system_prompt},
-            {"role":"user", "content": final_user_prompt}
+            {"role":"user", "content": input_prompt1},
+            {"role": "assistant", "content": assistent_reaction1},
+            {"role":"user", "content": input_prompt2}
             ]
             ,
             max_tokens = 500,
@@ -116,35 +116,87 @@ def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3, te
             n = 1,
             stop = None
             )
-    return response.choices[0].message.content
-    #generated_outputs = generate_radio_mes(prompt_news_art)
-    
-    #return print("This is the generated output", generated_outputs)
-
-def gpt_evaluator(input):
-    import openai
-    openai.api_key = "x"
-
-    # response = openai.ChatCompletion.create(
-    #         model = "gpt-3.5-turbo", 
+    resp_1 = response1.choices[0].message.content
+    print(resp_1)
+    #user_prompt2 = input_prompt1 + "1\n" + response1.choices[0].message.content + " " + input_prompt2
+    #print(user_prompt2)
+    # response3 = openai.ChatCompletion.create(
+    #             model = "gpt-3.5-turbo", 
     #         messages=[
-            
-    #         {"role":"user", "content": input}
+    #         {"role":"system", "content":system_prompt},
+    #         {"role":"user", "content": input_prompt1},
+    #         {"role": "assistant", "content": assistent_reaction1},
+    #         {"role":"user", "content": input_prompt2},
+    #         {"role": "assistant", "content": resp_1},
+    #         {"role": "user", "content": input_prompt3}
     #         ]
     #         ,
-    #         max_tokens = 150,
+    #         max_tokens = 500,
     #         temperature = 0.8,
     #         n = 1,
     #         stop = None
     #         )
-    #return response.choices[0].message.content
-    return "train_test"
+    
+    
+
+
+    # #print(response2.choices[0].message.content)
+    # user_prompt3 = input_prompt1 + "1\n" + response1.choices[0].message.content + " " + input_prompt2 + "2\n" + response2.choices[0].message.content + " " + input_prompt3 + "\n"
+    # #print(user_prompt3)
+    # response3 = openai.ChatCompletion.create(
+    #             model = "gpt-3.5-turbo", 
+    #         messages=[
+    #         {"role":"system", "content":system_prompt},
+    #         {"role":"user", "content": user_prompt3}
+    #         ]
+    #         ,
+    #         max_tokens = 500,
+    #         temperature = 0.8,
+    #         n = 1,
+    #         stop = None
+    #         )
+    #print(response3.choices[0].message.content)
+    
+    
+    #output = response3.choices[0].message.content
+    #ret_output = remove_text_before_colon(output)
+
+    return resp_1
+    #generated_outputs = generate_radio_mes(prompt_news_art)
+    
+    #return print("This is the generated output", generated_outputs)
+
+def remove_text_before_colon(text):
+    if ':' in text:               # I check whether )space is before the dash, since it could be that it merely connects words.
+                                    # by doing this, those dashes are not impacted
+        text = text.split(': \n\n', 1)[1].strip()  # I remove everything standing before the dash.
+    return text
+
+
+def gpt_evaluator(input):
+    import openai
+    openai.api_key = api_key_gpt
+
+    response = openai.ChatCompletion.create(
+            model = "gpt-3.5-turbo", 
+            messages=[
+            
+            {"role":"user", "content": input}
+            ]
+            ,
+            max_tokens = 150,
+            temperature = 0.8,
+            n = 1,
+            stop = None
+            )
+    return response.choices[0].message.content
+    #return "train_test"
 
 
 
 
 
-def claude_generator(input_prompt1, input_prompt2, input_prompt3, temperature=.2):
+def claude_generator(input_prompt1, input_prompt2, input_prompt3):
      # in gpt, everything must be put into 1 string.
     #import openai
     my_api = api_key_1

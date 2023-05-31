@@ -23,6 +23,6 @@ examples = False
 n_of_examples = 1
 
 # 
-lm_model = "cl"
-lm_model2 = 'gpt4'
+lm_model = "gpt4" # cl
+#lm_model2 = 'gpt4'
 ls_eval_aspect = ["feit", "vloe", "rele", "spre"]
