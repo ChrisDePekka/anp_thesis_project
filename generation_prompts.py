@@ -1,6 +1,7 @@
 import re
+from constants import lm_model
 
-def generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos, lm_name):
+def generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, name, pos):
     # the base prompt now isnt really fixed unfortunately, since the baseprompt would be:
     # base_prompt = "Schrijf een radiobericht van het volgende nieuwsbericht: "
 
@@ -68,13 +69,13 @@ def generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, nam
 
     prompt3 = "Dankjewel! Kan je het iets korter schrijven?"
     
-    if lm_name == 'cl':
+    if lm_model == 'cl':
         return prompt1, prompt2, prompt3
     else:
         return system_prompt_final, prompt1, prompt2, prompt3
 
 
-def generate_clavie_evaluation(aspect_to_evaluate):
+def generate_clavie_evaluation(aspect_to_evaluate): 
     if aspect_to_evaluate == "vloe":
         user_prompt = "Voor de taak om van nieuwsberichten radio-berichten te creeëren, geef een score aan de mate waarin de tekst vloeiend is \
         op een schaal van 0 tot 100. 100 geef je als alle zinnen natuurlijk in elkaar overgaan en het een coherent verhaal is. \

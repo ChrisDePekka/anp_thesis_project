@@ -1,11 +1,9 @@
 import pandas as pd
 import re
 from pandas import read_csv
+from constants import csv_file, path
 
-def get_data(data_csv):
-
-    path = "C:/Users/20183274/Documents/Scriptie/Thesis_Code_ANP"
-    csv_file = data_csv
+def get_data():
     df = pd.read_csv(f'{path}/data/{csv_file}', delimiter=',')  # of sep= ','
     
     df_0_temp = df[["Nieuws_related_1_bodytext", "Nieuws_related_1_title", "Nieuws_id"]]
@@ -14,7 +12,6 @@ def get_data(data_csv):
     df_0_temp2["news_articles"] = df_0_temp2["news_articles"].apply(preprocess_input)
     df_0_temp2['NA_index'] = df_0_temp2.index
     df_0 = df_0_temp2[['NA_index','news_articles', 'news_titles', 'news_ids']]
-
 
 
     selected_columns_df = df[[ "Nieuws_related_1_bodytext", "Radio_bodytext"]]

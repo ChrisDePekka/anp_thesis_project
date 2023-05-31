@@ -103,7 +103,7 @@ def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3, te
     final_user_prompt = user_prompt1 + user_prompt2 + user_prompt3
     print(final_user_prompt)
     
-    return "test_radio_mess"
+    #return "test_radio_mess"
     response = openai.ChatCompletion.create(
                 model = "gpt-3.5-turbo", 
             messages=[
@@ -111,7 +111,7 @@ def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3, te
             {"role":"user", "content": final_user_prompt}
             ]
             ,
-            max_tokens = 150,
+            max_tokens = 500,
             temperature = 0.8,
             n = 1,
             stop = None

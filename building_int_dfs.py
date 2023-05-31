@@ -1,7 +1,7 @@
-from constants import lm_model, n_s
+from constants import lm_model, n_s, ls_eval_aspect
 
-def create_df(dataframe, ls_eval_aspects):
-    if lm_model == "Claude":
+def create_df(dataframe):
+    if lm_model == "cl":
 
         selected_columns_df = dataframe.drop(dataframe.columns[2:6], axis=1)
         df_2_int = selected_columns_df.melt(id_vars = ["NA_index", "news_articles"], var_name = "cl_rm_i", value_name = "cl_rm_str")
@@ -9,17 +9,6 @@ def create_df(dataframe, ls_eval_aspects):
         # one extra due to system prompt
         selected_columns_df = dataframe.drop(dataframe.columns[2:7], axis=1)
         df_2_int = selected_columns_df.melt(id_vars = ["NA_index", "news_articles"], var_name = "gpt4_rm_i", value_name = "gpt4_rm_str")
-    
-    if lm_model == "Claude":
-        lm = 'cl'
-    else:
-        lm = 'gpt4'
-
-    # for eval_aspect in ls_eval_aspects:
-    #     col_names = [f'{lm}_rm_{g+1}_{eval_aspect}' for g in range(n_s)]
-    # for col_name in col_names:
-    #     df_2_int.loc[:, col_name] = None
-     
     
     return df_2_int
     

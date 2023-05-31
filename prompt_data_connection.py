@@ -11,18 +11,6 @@ def connecting_prompts_with_news(prompt, news_art):
     prompt_news_combi = re.sub(pattern, f"\g<1>{news_art} ", prompt)
     return prompt_news_combi
 
-    #for news_art in news_arts:
-        #pattern = r"(nieuwsbericht:\s*)"
-       # prompt_news_combi = re.sub(pattern, f"\g<1>{news_art} ", prompt)
-        #print(prompt_news_combi)   
-        #prompt_news_combi.append(prompt + news_art)
-    prompts_same_length.append(prompt)
-    radio_mes_ext = []
-    for radio_mes in radio_mess:
-        radio_mes_ext.extend([radio_mes] * len(prompt_news_combi))
-
-
-    return prompts_same_length, prompt_news_combi, radio_mes_ext
 
 def connecting_prompt_with_gen_mess(lai_prompt, news_art, gen_mess):
     
@@ -40,8 +28,8 @@ def connecting_prompt_with_gen_mess(lai_prompt, news_art, gen_mess):
 def connecting_clavie_prompt_with_gen_mess(input_clavie_eval_2, input_news, input_radios, lai_variant):
     lai_var_fin_combi = ''
     if lai_variant == True:
-        print("input_radios", input_radios)
-        lai_var_combi = input_clavie_eval_2+ f"Nieuwsbericht: {input_news}"
+        
+        lai_var_combi = input_clavie_eval_2+ f" Nieuwsbericht: {input_news}"
         #print(lai_combi)
         counter = 0
         ls_alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', "J", 'K']
