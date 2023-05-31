@@ -25,7 +25,7 @@ if __name__ == "__main__":
     # # Use only the first row to show that it works
     sample_row_df = dataset_to_generate.iloc[2:4]
     print(sample_row_df)
-    sample_row_df = sample_row_df.reset_index()
+    sample_row_df = sample_row_df.reset_index(drop=True)
     
     # # dataframe including the prompt_newsarticle combination
     df_with_prompts_incl_prompt_news = create_prompt_newsarticle(sample_row_df)

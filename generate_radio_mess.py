@@ -56,7 +56,7 @@ def generate_radio_scores(df_2, df_2_int):
 
         for index, row in df_2.iterrows():
             #print("what is the input", row[f'{eval_aspect}_e_prompt'])
-            ls_n_s = [generate_scores(row[f"{eval_aspect}_e_prompt"], n_g_r, lm_model) for _ in range(n_s)] 
+            ls_n_s = [generate_scores(row[f"{eval_aspect}_e_prompt"]) for _ in range(n_s)] 
             # this does n_s runs
             # a list containing lists. The inner lists are the scores of every radiomessage.
             # So the function generate_scores returns a list containing n_g_r int (scores)
@@ -81,7 +81,7 @@ def generate_radio_scores(df_2, df_2_int):
     df_2 = df_2_int.copy()
     return df_2
 
-def generate_scores(eval_prompt, n_g_r):
+def generate_scores(eval_prompt):
     int_list = []
 
     # bij relevantie prompt gaat mis
@@ -90,7 +90,7 @@ def generate_scores(eval_prompt, n_g_r):
         ls_scores_one_eval_run = []
         #output_LLM = LLM_rms_evaluator(eval_prompt)
 
-        if lm_model == 'Claude':
+        if lm_model == 'cl':
             output_LLM = claude_evaluator(eval_prompt)
         else:
             output_LLM = gpt_evaluator(eval_prompt)
