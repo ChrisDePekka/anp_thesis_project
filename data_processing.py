@@ -31,7 +31,8 @@ def get_data():
 
 def preprocess_input(text):
     text = remove_text_before_dash(text)
-    text2 = re.sub("</?p[^>]*>", "", text)
+    text2 = re.sub("</?p[^>]*>", " ", text)
+    text2 = re.sub("</?b[^>]*>", "", text2)
     return text2
 
 
