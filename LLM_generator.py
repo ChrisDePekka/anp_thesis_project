@@ -98,7 +98,7 @@ def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3):
     import openai
     openai.api_key = api_key_gpt
     
-    assistent_reaction1 = "Ja, ik begrijp het helemaal. Kom maar op met het nieuwsbericht. Ik zal het analyseren en er een goed radio bericht van maken. Ik maak een heel kort radiobericht van maximaal 4 zinnen."
+    assistent_reaction1 = "Ja, ik begrijp het helemaal. Kom maar op met het nieuwsbericht. Ik zal het analyseren en er een goed radio bericht van maken. Ik maak een heel kort radiobericht van maximaal 70 woorden."
     #assistent_reaction2 = 
     
 
@@ -159,17 +159,17 @@ def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3):
     
     
     #output = response3.choices[0].message.content
-    #ret_output = remove_text_before_colon(output)
+    ret_output = remove_text_before_colon(resp_1)
 
-    return resp_1
+    return ret_output
     #generated_outputs = generate_radio_mes(prompt_news_art)
     
     #return print("This is the generated output", generated_outputs)
 
 def remove_text_before_colon(text):
-    if ':' in text:               # I check whether )space is before the dash, since it could be that it merely connects words.
+    if 'Het Radiobericht:' in text:               # I check whether )space is before the dash, since it could be that it merely connects words.
                                     # by doing this, those dashes are not impacted
-        text = text.split(': \n\n', 1)[1].strip()  # I remove everything standing before the dash.
+        text = text.split('Het Radiobericht: ', 1)[1].strip()  # I remove everything standing before the dash.
     return text
 
 
