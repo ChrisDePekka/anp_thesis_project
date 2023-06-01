@@ -207,18 +207,20 @@ def claude_generator(input_prompt1, input_prompt2, input_prompt3):
     #print(final_user_prompt)
     
     #c = anthropic.Client(os.environ["ANTHROPIC_API_KEY"])
-    max_tokens_to_sample = 200
+    max_tokens_to_sample = 300
     c = anthropic.Client(api_key = my_api)
-    resp1 = c.completion( prompt=user_prompt1,
-        model="claude-v1",
-        max_tokens_to_sample = max_tokens_to_sample,
-    )
-    print(type(resp1))
-    print()
-    print(resp1['completion'].strip())
-    completed_resp1 = resp1['completion'].strip()
-    print("Does this give a response?")
+    # resp1 = c.completion( prompt=user_prompt1,
+    #     model="claude-v1",
+    #     max_tokens_to_sample = max_tokens_to_sample,
+    # )
+    # print(type(resp1))
+    # print()
+    # print(resp1['completion'].strip())
+    # completed_resp1 = resp1['completion'].strip()
+    # print("Does this give a response?")
     
+    completed_resp1 = "Ja, ik begrijp je. Ik schrijf een radiobericht van maximaal 60 woorden waarin ik irrelevante informatie weg laat en mij focus op één essentieel onderdeel van het nieuwsbericht."
+
     resp2 = c.completion( prompt=user_prompt1 + completed_resp1 + user_prompt2,
         model="claude-v1",
         max_tokens_to_sample = max_tokens_to_sample,

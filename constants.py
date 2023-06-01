@@ -1,6 +1,6 @@
 # csv-file
 #csv_file = "thesis.csv"
-csv_file = "final_10row_df.csv"
+csv_file = "final_10row_df.csv" # "final_10row_df.csv" test_row.csv
 path = "C:/Users/20183274/Documents/Scriptie/Thesis_Code_ANP"
 path2 = "C:/Users/20183274/Documents/Scriptie/"
 
@@ -23,6 +23,6 @@ examples = False
 n_of_examples = 1
 
 # 
-lm_model = "gpt4" # cl
+lm_model = "cl" # cl # gpt4
 #lm_model2 = 'gpt4'
 ls_eval_aspect = ["feit", "vloe", "rele", "spre"]

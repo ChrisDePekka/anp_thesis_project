@@ -15,7 +15,7 @@ def generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, nam
             Begin je uiteindelijke radiobericht met:  Het Radiobericht: "
         
         
-        user_prompt = " Een radio bericht is goed als het de essentie van het nieuwsbericht bezit. Minder belangrijke nieuwsfeiten moet je niet benoemen. Ieder nieuwsfeit mag maar 1 keer benoemd worden. Als je het nieuwsbericht analyseert, neem dan mee dat de mening van mensen belangrijk is. Benoem niet de voornaam als de persoon niet het hoofdonderwerp is. Het radio bericht moet kort en bondig zijn, maximaal 70 woorden, en geschreven in 1 paragraaf. "
+        user_prompt = " Een radio bericht is goed als het de essentie van het nieuwsbericht bezit. Minder belangrijke nieuwsfeiten moet je niet benoemen. Ieder nieuwsfeit mag maar 1 keer benoemd worden. Als je het nieuwsbericht analyseert, neem dan mee dat de mening van mensen belangrijk is. Benoem niet de voornaam als de persoon niet het hoofdonderwerp is. Het radio bericht moet kort en bondig zijn, maximaal 60 woorden, en geschreven in 1 paragraaf. "
 
         if name:
             #name_sys_prompt = ""

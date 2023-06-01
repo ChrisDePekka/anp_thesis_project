@@ -23,7 +23,7 @@ if __name__ == "__main__":
         #print_full(dataset_to_generate)
         
         # # Use only the first row to show that it works
-        sample_row_df = dataset_to_generate.iloc[2:4]
+        sample_row_df = dataset_to_generate.iloc[4:6]
         #print(sample_row_df)
         sample_row_df = sample_row_df.reset_index(drop=True)
         
@@ -35,7 +35,7 @@ if __name__ == "__main__":
         df_1 = df_with_generated_radio.copy()
         df_1.to_csv(f'{lm_model}_df_1.csv', index=False)
 
-    else:
+    #else:
     
         df_1_cont = pd.read_csv(f'{path2}/anp_thesis_project/{lm_model}_df_1.csv', delimiter=',')
 
@@ -44,11 +44,11 @@ if __name__ == "__main__":
 
         df_2 = create_eval_prompts(df_1_cont)
         df_2.to_csv(f'{lm_model}_df_2.csv', index=False)
-        df_2_cont = pd.read_csv(f'{path2}/anp_thesis_project/{lm_model}df_2.csv', delimiter=',')
+        df_2_cont = pd.read_csv(f'{path2}/anp_thesis_project/{lm_model}_df_2.csv', delimiter=',')
 
             #if a == 3:
         df_3 = generate_radio_scores(df_2_cont, df_2_int)
-        df_3.to_csv(f'{lm_model}df_3.csv', index=False)
+        df_3.to_csv(f'{lm_model}_df_3.csv', index=False)
         
 
         df_3_cont = pd.read_csv(f'{path2}/anp_thesis_project/{lm_model}_df_3.csv', delimiter=',')
