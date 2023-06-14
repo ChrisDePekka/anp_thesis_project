@@ -33,9 +33,9 @@ if __name__ == "__main__":
         df_with_generated_radio = generate_radio_messages(df_with_prompts_incl_prompt_news)
 
         df_1 = df_with_generated_radio.copy()
-        df_1.to_csv(f'{lm_model}_df_1.csv', index=False)
+        df_1.to_csv(f'{lm_model}_df_1_extra.csv', index=False)
 
-    #else:
+    else:
     
         df_1_cont = pd.read_csv(f'{path2}/anp_thesis_project/{lm_model}_df_1.csv', delimiter=',')
 

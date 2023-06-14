@@ -37,7 +37,7 @@ def generate_message_per_newsitem(input_text):
         print(input_text)
         print("0", input_text[0])
         print("1", input_text[1])
-        print("1", input_text[2])
+        print("2", input_text[2])
         
         output3 = claude_generator(input_text[0], input_text[1], input_text[2])
     else:

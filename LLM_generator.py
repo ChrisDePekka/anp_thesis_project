@@ -98,7 +98,7 @@ def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3):
     import openai
     openai.api_key = api_key_gpt
     
-    assistent_reaction1 = "Ja, ik begrijp het helemaal. Kom maar op met het nieuwsbericht. Ik zal het analyseren en er een goed radio bericht van maken. Ik maak een heel kort radiobericht van maximaal 70 woorden."
+    assistent_reaction1 = "Ja, ik begrijp het helemaal. Kom maar op met het nieuwsbericht. Ik zal het analyseren en er een goed radio bericht van maken. Ik maak een heel kort radiobericht van maximaal 65 woorden."
     #assistent_reaction2 = 
     
 
@@ -207,7 +207,7 @@ def claude_generator(input_prompt1, input_prompt2, input_prompt3):
     #print(final_user_prompt)
     
     #c = anthropic.Client(os.environ["ANTHROPIC_API_KEY"])
-    max_tokens_to_sample = 300
+    max_tokens_to_sample = 500
     c = anthropic.Client(api_key = my_api)
     # resp1 = c.completion( prompt=user_prompt1,
     #     model="claude-v1",
@@ -219,30 +219,46 @@ def claude_generator(input_prompt1, input_prompt2, input_prompt3):
     # completed_resp1 = resp1['completion'].strip()
     # print("Does this give a response?")
     
-    completed_resp1 = "Ja, ik begrijp je. Ik schrijf een radiobericht van maximaal 60 woorden waarin ik irrelevante informatie weg laat en mij focus op één essentieel onderdeel van het nieuwsbericht."
+    completed_resp1 = "OK, ik begrijp je. Ik schrijf een radiobericht van ongeveer 55 woorden en maximaal 65 woorden waarin ik irrelevante informatie weg laat en mij focus op één essentieel onderdeel van het nieuwsbericht. Ik begin mijn radiobericht met Het Radiobericht:"
 
     resp2 = c.completion( prompt=user_prompt1 + completed_resp1 + user_prompt2,
         model="claude-v1",
         max_tokens_to_sample = max_tokens_to_sample,
     )
+    # print(resp2['completion'].strip())
+    # completed_resp2 = resp2['completion'].strip()
+    # print("look for me", completed_resp2)
+    # resp3 = c.completion( prompt=user_prompt1 + completed_resp1 + user_prompt2 + completed_resp2 + user_prompt3,
+    #     model="claude-v1",
+    #     max_tokens_to_sample = max_tokens_to_sample,
+    # )
+    # print("where am I", resp3['completion'].strip())
+    # gen_rm = remove_text_before_enter(resp3['completion'].strip())
+
     print(resp2['completion'].strip())
-    completed_resp2 = resp2['completion'].strip()
-    resp3 = c.completion( prompt=user_prompt1 + completed_resp1 + user_prompt2 + completed_resp2 + user_prompt3,
-        model="claude-v1",
-        max_tokens_to_sample = max_tokens_to_sample,
-    )
-    print(resp3['completion'].strip())
-    gen_rm = remove_text_before_enter(resp3['completion'].strip())
+    gen_rm = remove_text_before_hetradiobericht(resp2['completion'].strip())
+
+
+
     return gen_rm
-    #generated_outputs = generate_radio_mes(prompt_news_art)
-    
-    #return print("This is the generated output", generated_outputs)
+
+
+
+
 
 def remove_text_before_enter(text):
     if '\n\n' in text:               # I check whether )space is before the dash, since it could be that it merely connects words.
                                     # by doing this, those dashes are not impacted
         text = text.split('\n\n', 1)[1].strip()  # I remove everything standing before the dash.
     return text
+
+def remove_text_before_hetradiobericht(text):
+    keyword = 'Het Radiobericht:'
+    if keyword in text:               # I check whether )space is before the dash, since it could be that it merely connects words.
+                                    # by doing this, those dashes are not impacted
+        text = text.split(keyword, 1)[1].strip()  # I remove everything standing before the dash.
+    return text
+
 
 def claude_evaluator(input):
      # in gpt, everything must be put into 1 string.

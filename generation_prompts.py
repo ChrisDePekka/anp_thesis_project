@@ -14,8 +14,14 @@ def generate_prompts_clavie(zero_cot, instructions, mock, reit, right, info, nam
         system_prompt = "Jij bent een AI journalist die expert is in het schrijven van radio berichten. Jouw taak is om van het nieuwsartikel een bericht te schrijven dat bestemd is voor een radio-uitzending. Jij bent creatief. Jij gebruikt liever woorden die niet in het nieuwsartikel voorkomen. Gebruik begrijpelijke taal dat door een breed publiek kan worden begrepen. \
             Begin je uiteindelijke radiobericht met:  Het Radiobericht: "
         
-        
-        user_prompt = " Een radio bericht is goed als het de essentie van het nieuwsbericht bezit. Minder belangrijke nieuwsfeiten moet je niet benoemen. Ieder nieuwsfeit mag maar 1 keer benoemd worden. Als je het nieuwsbericht analyseert, neem dan mee dat de mening van mensen belangrijk is. Benoem niet de voornaam als de persoon niet het hoofdonderwerp is. Het radio bericht moet kort en bondig zijn, maximaal 60 woorden, en geschreven in 1 paragraaf. "
+        if lm_model == "gpt4":
+            user_prompt = " Een radio bericht is goed als het de essentie van het nieuwsbericht bezit. Minder belangrijke nieuwsfeiten moet je niet benoemen. Ieder nieuwsfeit mag maar 1 keer benoemd worden. Als je het nieuwsbericht analyseert, neem dan mee dat de mening van mensen belangrijk is. Benoem niet de voornaam als de persoon niet het hoofdonderwerp is. Het radio bericht moet kort en bondig zijn, maximaal 65 woorden, en geschreven in 1 paragraaf. "
+
+        else:
+            user_prompt = "Jij bent, Christian, een AI journalist die expert is in het schrijven van radio berichten. Jouw taak is om van het nieuwsartikel een bericht te schrijven dat bestemd is voor een radio-uitzending. Jij bent creatief. Jij gebruikt liever woorden die niet in het nieuwsartikel voorkomen. Gebruik begrijpelijke taal dat door een breed publiek kan worden begrepen. \
+            Een radio bericht is goed als het de essentie van het nieuwsbericht bezit. Minder belangrijke nieuwsfeiten moet je niet benoemen. Ieder nieuwsfeit mag maar 1 keer benoemd worden. Als je het nieuwsbericht analyseert, neem dan mee dat de mening van mensen belangrijk is. Benoem niet de voornaam als de persoon niet het hoofdonderwerp is. Het radio bericht moet kort en bondig zijn, maximaal 65 woorden, en geschreven in 1 paragraaf. \
+            Denk eraan, jij bent de beste AI journalist en je gebruikt jouw expertise om het best mogelijke radio bericht te schrijven. \
+            Begin je uiteindelijke radiobericht met:  Het Radiobericht: " 
 
         if name:
             #name_sys_prompt = ""
