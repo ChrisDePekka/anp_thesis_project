@@ -98,7 +98,8 @@ def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3):
     import openai
     openai.api_key = api_key_gpt
     
-    assistent_reaction1 = "Ja, ik begrijp het helemaal. Kom maar op met het nieuwsbericht. Ik zal het analyseren en er een goed radio bericht van maken. Ik maak een heel kort radiobericht van maximaal 65 woorden."
+    #assistent_reaction1 = "Ja, ik begrijp het helemaal. Kom maar op met het nieuwsbericht. Ik zal het analyseren en er een goed radio bericht van maken. Ik maak een heel kort radiobericht van maximaal 65 woorden."
+    assistent_reaction1 = "OK, ik begrijp je. Ik schrijf een radiobericht van ongeveer 55 woorden en maximaal 65 woorden waarin ik irrelevante informatie weg laat en mij focus op één essentieel onderdeel van het nieuwsbericht. Ik begin mijn radiobericht met Het Radiobericht:"
     #assistent_reaction2 = 
     
 
@@ -157,10 +158,14 @@ def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3):
     #         )
     #print(response3.choices[0].message.content)
     
+
+    gen_rm = remove_text_before_hetradiobericht(resp_1)
+    return gen_rm
+
+
     
     #output = response3.choices[0].message.content
     ret_output = remove_text_before_colon(resp_1)
-
     return ret_output
     #generated_outputs = generate_radio_mes(prompt_news_art)
     
@@ -184,11 +189,12 @@ def gpt_evaluator(input):
             {"role":"user", "content": input}
             ]
             ,
-            max_tokens = 150,
-            temperature = 0.8,
+            max_tokens = 100,
+            temperature = 0.8,  # variance must def. not be temp 1 since then always the same score is given.
             n = 1,
             stop = None
             )
+    print(response.choices[0].message.content)
     return response.choices[0].message.content
     #return "train_test"
 
@@ -274,7 +280,7 @@ def claude_evaluator(input):
     )
     #print(type(resp1))
     #print()
-    #print(resp1['completion'].strip())
+    print(resp1['completion'].strip())
     completed_resp1 = resp1['completion'].strip()
     
     return completed_resp1

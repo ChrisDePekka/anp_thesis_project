@@ -80,7 +80,7 @@ def generate_radio_scores(df_2, df_2_int):
                     i = 'g'
                     j = '' # j is needed since you cannot add 1 to g, 1 needed to be added since radio-message starts from 1.
 
-                row_index = df_2_int.index[(df_2_int["NA_index"] == row["NA_index"]) & (df_2_int["cl_rm_i"] == f'{lm_model}_rm_{i+j}')].tolist()
+                row_index = df_2_int.index[(df_2_int["NA_index"] == row["NA_index"]) & (df_2_int[f"{lm_model}_rm_i"] == f'{lm_model}_rm_{i+j}')].tolist()
                 df_2_int.at[row_index[0], f'{lm_model}_{eval_aspect}_ls'] = ls_scores_rm
                 
                 if i == 'g':
