@@ -266,7 +266,7 @@ def claude_evaluator(input):
     print("this is the input", input)
     my_api = api_key_1
     user_prompt1 = "\n\nHuman: " + input + "\n\nAssistant:"
-    max_tokens_to_sample = 300
+    max_tokens_to_sample = 500
     c = anthropic.Client(api_key = my_api)
     resp1 = c.completion( prompt=user_prompt1,
         model="claude-v1",

@@ -19,9 +19,12 @@ if __name__ == "__main__":
 
             #Import small dataset to test the prompts on
         dataset_to_generate, df_0 = get_data()
-        df_0.to_csv(f'{lm_model}_df_0.csv', index=False)
+
+        df_0.to_csv(f'{lm_model}_df_0_new.csv', index=False)
         #print_full(dataset_to_generate)
-        
+        print(df_0)
+
+    else:
         # # Use only the first row to show that it works
         sample_row_df = dataset_to_generate.iloc[4:6]
         #print(sample_row_df)
@@ -35,9 +38,9 @@ if __name__ == "__main__":
         df_1 = df_with_generated_radio.copy()
         df_1.to_csv(f'{lm_model}_df_1_extra.csv', index=False)
 
-    else:
+    #else:
     
-        df_1_cont = pd.read_csv(f'{path2}/anp_thesis_project/{lm_model}_df_1.csv', delimiter=',')
+        df_1_cont = pd.read_csv(f'{path2}/anp_thesis_project/{lm_model}_df_1_extra.csv', delimiter=',')
 
         
         df_2_int = create_df(df_1_cont)
