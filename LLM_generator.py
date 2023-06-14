@@ -235,7 +235,7 @@ def claude_generator(input_prompt1, input_prompt2, input_prompt3):
     # print("where am I", resp3['completion'].strip())
     # gen_rm = remove_text_before_enter(resp3['completion'].strip())
 
-    print(resp2['completion'].strip())
+    #print(resp2['completion'].strip())
     gen_rm = remove_text_before_hetradiobericht(resp2['completion'].strip())
 
 
@@ -263,7 +263,7 @@ def remove_text_before_hetradiobericht(text):
 def claude_evaluator(input):
      # in gpt, everything must be put into 1 string.
     #import openai
-    print("this is the input", input)
+    #print("this is the input", input)
     my_api = api_key_1
     user_prompt1 = "\n\nHuman: " + input + "\n\nAssistant:"
     max_tokens_to_sample = 500

@@ -12,7 +12,7 @@ def generate_radio_messages(dataframe):
     
     for col_name in ls_rms:
         dataframe.loc[:, col_name] = None
-    print(dataframe.columns)
+    #print(dataframe.columns)
     for index, row in dataframe.iterrows():
        i = 0
        while i < n_g_r:
@@ -29,15 +29,15 @@ def generate_radio_messages(dataframe):
             # Still need to add the cl_rm_g as a column
             # dataframe.loc[index, f'{lm_model}_rm_{i}'] = gen_rm
     dataframe.loc[:, f'{lm_model}_rm_g'] = dataframe['rm_g']
-    print(dataframe[5:])
+    #print(dataframe[5:])
     return dataframe
 
 def generate_message_per_newsitem(input_text):
     if lm_model == 'cl':
-        print(input_text)
-        print("0", input_text[0])
-        print("1", input_text[1])
-        print("2", input_text[2])
+        #print(input_text)
+        #print("0", input_text[0])
+        #print("1", input_text[1])
+        #print("2", input_text[2])
         
         output3 = claude_generator(input_text[0], input_text[1], input_text[2])
     else:

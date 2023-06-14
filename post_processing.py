@@ -17,7 +17,7 @@ def post_processing_1(df_3_cont):
 
     df_4_int.loc[:,f"{lm_model}_eval_M"] = df_4_int.loc[:, col_names].mean(axis=1)
     df_4_int.loc[:, f"{lm_model}_ranking"] = df_4_int.groupby("NA_index")[f"{lm_model}_eval_M"].rank(ascending=1,method='dense')
-    print(df_4_int)
+    #print(df_4_int)
     
 
     return df_4_int
