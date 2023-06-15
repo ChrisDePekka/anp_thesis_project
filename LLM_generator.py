@@ -99,13 +99,13 @@ def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3):
     import openai
     openai.api_key = api_key_gpt
     
-    #assistent_reaction1 = "Ja, ik begrijp het helemaal. Kom maar op met het nieuwsbericht. Ik zal het analyseren en er een goed radio bericht van maken. Ik maak een heel kort radiobericht van maximaal 65 woorden."
-    assistent_reaction1 = "OK, ik begrijp je. Ik schrijf een radiobericht van ongeveer 55 woorden en maximaal 65 woorden waarin ik irrelevante informatie weg laat en mij focus op één essentieel onderdeel van het nieuwsbericht. Ik begin mijn radiobericht met Het Radiobericht:"
-    #assistent_reaction2 = 
     
-
+    assistent_reaction1 = "OK, ik begrijp je. Ik schrijf een radiobericht van ongeveer 55 woorden en maximaal 65 woorden waarin ik irrelevante informatie weg laat en mij focus op één essentieel onderdeel van het nieuwsbericht. Ik begin mijn radiobericht met Het Radiobericht:"
+    
+    # response1 is only used for v1 version of gpt4 generated messages
     response1 = openai.ChatCompletion.create(
-                model = "gpt-3.5-turbo", 
+                model = "gpt-4", 
+                #model = "gpt-3.5-turbo", 
             messages=[
             {"role":"system", "content":system_prompt},
             {"role":"user", "content": input_prompt1},
@@ -120,47 +120,28 @@ def gpt_generator(system_prompt, input_prompt1, input_prompt2, input_prompt3):
             )
     resp_1 = response1.choices[0].message.content
     print(resp_1)
-    #user_prompt2 = input_prompt1 + "1\n" + response1.choices[0].message.content + " " + input_prompt2
-    #print(user_prompt2)
-    # response3 = openai.ChatCompletion.create(
-    #             model = "gpt-3.5-turbo", 
-    #         messages=[
-    #         {"role":"system", "content":system_prompt},
-    #         {"role":"user", "content": input_prompt1},
-    #         {"role": "assistant", "content": assistent_reaction1},
-    #         {"role":"user", "content": input_prompt2},
-    #         {"role": "assistant", "content": resp_1},
-    #         {"role": "user", "content": input_prompt3}
-    #         ]
-    #         ,
-    #         max_tokens = 500,
-    #         temperature = 0.8,
-    #         n = 1,
-    #         stop = None
-    #         )
-    
-    
+    gen_rm = remove_text_before_hetradiobericht(resp_1)
 
 
-    # #print(response2.choices[0].message.content)
-    # user_prompt3 = input_prompt1 + "1\n" + response1.choices[0].message.content + " " + input_prompt2 + "2\n" + response2.choices[0].message.content + " " + input_prompt3 + "\n"
+    # This part is added for v2 gpt4
+    user_prompt3 = input_prompt1 + "1\n" + assistent_reaction1 + " " + input_prompt2 + "2\n" + resp_1 + " " + input_prompt3 + "\n"
     # #print(user_prompt3)
-    # response3 = openai.ChatCompletion.create(
-    #             model = "gpt-3.5-turbo", 
-    #         messages=[
-    #         {"role":"system", "content":system_prompt},
-    #         {"role":"user", "content": user_prompt3}
-    #         ]
-    #         ,
-    #         max_tokens = 500,
-    #         temperature = 0.8,
-    #         n = 1,
-    #         stop = None
-    #         )
+    response3 = openai.ChatCompletion.create(
+                model = "gpt-3.5-turbo", 
+            messages=[
+            {"role":"system", "content":system_prompt},
+            {"role":"user", "content": user_prompt3}
+            ]
+            ,
+            max_tokens = 500,
+            temperature = 0.8,
+            n = 1,
+            stop = None
+            )
     #print(response3.choices[0].message.content)
     
 
-    gen_rm = remove_text_before_hetradiobericht(resp_1)
+    
     return gen_rm
 
 
