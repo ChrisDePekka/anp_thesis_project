@@ -60,11 +60,15 @@ def generate_radio_scores(df_2, df_2_int):
         df_2_int.loc[:, col_name] = None
 
 
+    n_in_case_something_goes_wrong = 1 # change to 1 again
+
     for eval_aspect in ls_eval_aspect:
 
         col_name = [f'{eval_aspect}_R_s'] 
-                
-        df_2.loc[:, col_name] = None
+
+        # I commented this out as it is not required anymore, comment in after problem is solved   # Seems like it is not required at all.
+        #df_2.loc[:, col_name] = None
+
 
         for index, row in df_2.iterrows():
             #print("what is the input", row[f'{eval_aspect}_e_prompt'])
@@ -88,7 +92,9 @@ def generate_radio_scores(df_2, df_2_int):
                 else:
                     i += 1
                    
-            #df_3_int.at[index, col_name] = ls_n_s # it unfortunately does not let me insert a list of lists into one cell.
+        df_2_int.to_csv(f'{lm_model}_exp_1_df_3_{n_in_case_something_goes_wrong}.csv', index=False)
+        n_in_case_something_goes_wrong += 1
+
     df_2_int = df_2_int.sort_values(by=["NA_index"])
     df_2 = df_2_int.copy()
     return df_2

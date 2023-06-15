@@ -6,7 +6,8 @@ from config import api_key_1, api_key_gpt
 import asyncio
 import os
 import anthropic
-
+import time
+import re
 
 
 
@@ -181,16 +182,23 @@ def remove_text_before_colon(text):
 def gpt_evaluator(input):
     import openai
     openai.api_key = api_key_gpt
+    time.sleep(1)
 
+
+    # Since relevantie prompt does not work perfectly (it does not always understand it needs to continue giving scores after Score A: Score B: Score C: (then D, E etc.), I need to change this)
+    pattern = r"(Score C: )"
+    changed_input = re.sub(pattern, r"\g<1>                 Score D:                 Score E:                 Score F:                 Score G:                 Score H:", input)
+    #print("does it work?", changed_input)
+    #return print("see what happens")
     response = openai.ChatCompletion.create(
             model = "gpt-3.5-turbo", 
             messages=[
             
-            {"role":"user", "content": input}
+            {"role":"user", "content": changed_input}
             ]
             ,
             max_tokens = 100,
-            temperature = 0.8,  # variance must def. not be temp 1 since then always the same score is given.
+            temperature = 0.4,  # variance must def. not be temp 1 since then always the same score is given.
             n = 1,
             stop = None
             )
