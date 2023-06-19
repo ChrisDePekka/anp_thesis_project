@@ -1,6 +1,6 @@
 # csv-file
 #csv_file = "thesis.csv"
-csv_file = "experiment_2_df.csv" # "
+csv_file = "experiment_2_df_part_2.csv" # "
 path = "C:/Users/20183274/Documents/Scriptie/Thesis_Code_ANP"
 path2 = "C:/Users/20183274/Documents/Scriptie/"
 

@@ -20,7 +20,7 @@ if __name__ == "__main__":
             #Import small dataset to test the prompts on
         dataset_to_generate, df_0 = get_data()
 
-        df_0.to_csv(f'{lm_model}_exp_2_df_0.csv', index=False)
+        df_0.to_csv(f'{lm_model}_exp_2_df_0_part_2.csv', index=False)
         #print_full(dataset_to_generate)
         print(df_0)
 
@@ -38,7 +38,7 @@ if __name__ == "__main__":
         df_with_generated_radio = generate_radio_messages(df_with_prompts_incl_prompt_news)
 
         df_1 = df_with_generated_radio.copy()
-        df_1.to_csv(f'{lm_model}_exp_2_df_1.csv', index=False)
+        df_1.to_csv(f'{lm_model}_exp_2_df_1_part_2.csv', index=False)
 
     else:
     
