@@ -192,6 +192,7 @@ def gpt_evaluator(input):
 
 
 def claude_generator(input_prompt1, input_prompt2, input_prompt3):
+    time.sleep(5)
      # in gpt, everything must be put into 1 string.
     #import openai
     my_api = api_key_1
