@@ -66,12 +66,8 @@ def generate_radio_scores(df_2, df_2_int):
 
         col_name = [f'{eval_aspect}_R_s'] 
 
-        # I commented this out as it is not required anymore, comment in after problem is solved   # Seems like it is not required at all.
-        #df_2.loc[:, col_name] = None
-
-
         for index, row in df_2.iterrows():
-            #print("what is the input", row[f'{eval_aspect}_e_prompt'])
+
             ls_n_s = [generate_scores(row[f"{eval_aspect}_e_prompt"]) for _ in range(n_s)] 
             # this does n_s runs
             # a list containing lists. The inner lists are the scores of every radiomessage.
