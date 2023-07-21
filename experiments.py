@@ -48,7 +48,6 @@ def create_eval_prompts(df_1):
     
     df_3_int = df_temp.drop(df_temp.columns[2:(2+n_g_r+1)], axis=1) # plus one since also the golden rm is used.
 
-    counter = 0
     for eval_aspect in ls_eval_aspect:
 
         lai_like_prompt = generate_clavie_evaluation(eval_aspect)
@@ -60,5 +59,4 @@ def create_eval_prompts(df_1):
         
         df_3_int.loc[:, f'{eval_aspect}_e_prompt'] = cl_eval_comb
         
-        #counter += (n_g_r+1) # plus one since also the golden rm is used
     return df_3_int
