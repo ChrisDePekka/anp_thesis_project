@@ -96,7 +96,7 @@ def generate_clavie_evaluation(aspect_to_evaluate):
                 ———————"
 
     if aspect_to_evaluate == "vloe":
-        user_prompt = f"Voor de taak om van nieuwsberichten radio-berichten te creeëren, geef een score aan de mate waarin de tekst vloeiend is \
+        user_prompt = f"Voor de taak om van nieuwsberichten radio-berichten te creëren, geef een score aan de mate waarin de tekst vloeiend is \
         op een schaal van 0 tot 100. 100 geef je als alle zinnen natuurlijk in elkaar overgaan en het een coherent verhaal is. \
            0 geef je als het verhaal helemaal niet vloeiend loopt en zinnen een slechte overgang hebben. \
                 Geef ALLEEN scores. \
@@ -104,7 +104,7 @@ def generate_clavie_evaluation(aspect_to_evaluate):
                 {eval_format}"
 
     elif aspect_to_evaluate == "rele":
-        user_prompt = f"Voor de taak om van nieuwsberichten radio-berichten te creeëren, geef een score aan de mate waarin de tekst relevante informatie bevat \
+        user_prompt = f"Voor de taak om van nieuwsberichten radio-berichten te creëren, geef een score aan de mate waarin de tekst relevante informatie bevat \
         op een schaal van 0 tot 100. 100 geef je als het radiobericht de belangrijkste informatie bezit die moet worden overgebracht. Er mag geen overbodige informatie instaan, \
            dus de tekst moet ook kort en bondig zijn. 0 geef je als irrelevante informatie wordt gegeven of als het bericht te lang is. \
                 Geef ALLEEN scores. \
@@ -113,7 +113,7 @@ def generate_clavie_evaluation(aspect_to_evaluate):
                 #Uitleg A: \
                 #———————"
     elif aspect_to_evaluate == "feit":
-        user_prompt = f"Voor de taak om van nieuwsberichten radio-berichten te creeëren, geef een score aan de mate waarin de tekst feitelijk is \
+        user_prompt = f"Voor de taak om van nieuwsberichten radio-berichten te creëren, geef een score aan de mate waarin de tekst feitelijk is \
         op een schaal van 0 tot 100. 100 geef je als het radiobericht alleen feiten bevat die uit het nieuwsbericht komen. \
            0 geef je als er dingen beschreven zijn die feitelijk onjuist zijn met betrekking tot het nieuwsbericht. \
                 Geef ALLEEN scores. \
@@ -121,7 +121,7 @@ def generate_clavie_evaluation(aspect_to_evaluate):
                 {eval_format}"
     else:
         # Spreektaal
-        user_prompt = f"Voor de taak om van nieuwsberichten radio-berichten te creeëren, geef een score aan de mate waarin de tekst gebruik maakt van spreektaal \
+        user_prompt = f"Voor de taak om van nieuwsberichten radio-berichten te creëren, geef een score aan de mate waarin de tekst gebruik maakt van spreektaal \
         op een schaal van 0 tot 100. 100 geef je als het radiobericht geen moeilijke woorden en de juiste toon bevat. De juiste toon is een losse sfeer en toegankelijk voor iedereen. \
             Lange zinnen en tussenzinnen moeten vermeden worden. \
            0 geef je als er lange zinnen instaan en moeilijke woorden worden gebruikt. \
